@@ -54,3 +54,11 @@ button{
     -ms-border-radius:25px;
     -o-border-radius:25px;
 }
+@media screen and (max-width: 600px) {
+    h1{
+        font-size: 20px;
+        line-height: 22px;
+        letter-spacing: -0.67px;    
+    }
+    
+}

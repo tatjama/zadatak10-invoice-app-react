@@ -11,7 +11,6 @@ const Image = ({primary, secondary, src, logo}) => {
 
 export default Image;
 
-
 const ImageContainer = styled.div`
     width: 103px;
     height: 103px;
@@ -19,7 +18,15 @@ const ImageContainer = styled.div`
     background-color: ${props => props.primary? "#7C5DFA": "transparent"};
     position: relative;
     cursor: ${props => !props.secondary && "pointer"} ;
-    
+
+    @media screen and (max-width: 1000px) {
+        width: 80px;
+        height: 80px;
+    }
+    @media screen and (max-width: 600px) {
+        width: 72px;
+        height: 72px;
+    }
 `;
 
 const Img = styled.img`
@@ -32,4 +39,8 @@ const Img = styled.img`
     transform: translate(-50%, -50%);
     transition: all 0.5s ease;
     z-index: 10;
+    @media screen and (max-width: 1000px) {
+        width: ${props => props.secondary? "32px": "20px" } ;
+        height: ${props => props.secondary? "32px": "20px" } ;
+    }
 `

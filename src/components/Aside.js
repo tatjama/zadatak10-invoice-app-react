@@ -11,11 +11,7 @@ const Aside = ({theme, setTheme}) => {
 
     const onToggleTheme = () =>{
         console.log("click");
-        if(theme === "light"){
-            setTheme("dark");
-        }else{
-            setTheme("light");
-        }
+        (theme === "light")? setTheme("dark"): setTheme("light");
     }
 
     return (
@@ -45,6 +41,14 @@ const AsideContainer = styled.aside`
     width: 103px;
     background-color: #373B53;
     border-radius: 0px 20px 20px 0px;
+    @media screen and (max-width: 1000px) {
+        width: 100%;
+        flex-direction: row;
+        border-radius: 0;
+        div{
+            display: flex;            
+        }
+    }
 `;
 const ImageMask = styled.div`
     width: 103px;
@@ -53,7 +57,21 @@ const ImageMask = styled.div`
     background-color: #9277FF;
     position: absolute;
     top: 60px;
+    @media screen and (max-width: 1000px) {
+        width: 80px;
+        height: 40px;
+        top: 40px;
+    }
+    @media screen and (max-width: 600px) {
+        width: 72px;
+        height: 36px;
+        top: 36px;
+    }
 `;
 const ToggleThemeButton = styled.div` 
-border-bottom: 1px solid #494E6E;
+    border-bottom: 1px solid #494E6E;
+    @media screen and (max-width: 1000px) {
+        border-right: 1px solid #494E6E;
+        border-bottom: 0;
+    }
  `
