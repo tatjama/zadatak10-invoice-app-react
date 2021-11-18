@@ -21,8 +21,7 @@ const Header = ({theme}) => {
 export default Header;
 
 const HeaderContainer = styled.header` 
-    width: 55%;
-    margin: 72px auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,14 +30,7 @@ const HeaderContainer = styled.header`
     }
     p{
         color: ${props => props.theme.paragraphColor};// #888EB0;//#DFE3FA
-    }
-    @media screen and (max-width: 1000px) {
-        width: 88%;
-        margin: 56px auto;
-    }
-    @media screen and (max-width: 600px) {
-       margin: 32px auto;
-    }
+    }    
  `
  const FormContainer = styled.div`  
     display: flex;

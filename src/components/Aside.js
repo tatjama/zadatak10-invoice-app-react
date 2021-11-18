@@ -70,6 +70,13 @@ const ImageMask = styled.div`
 `;
 const ToggleThemeButton = styled.div` 
     border-bottom: 1px solid #494E6E;
+    cursor: pointer;
+    &:hover{
+          img {     
+            filter: brightness(0) saturate(100%) invert(100%) sepia(77%) saturate(256%) hue-rotate(297deg) brightness(114%) contrast(90%);     
+        }
+    }
+    
     @media screen and (max-width: 1000px) {
         border-right: 1px solid #494E6E;
         border-bottom: 0;
