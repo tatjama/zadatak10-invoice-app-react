@@ -2,14 +2,15 @@ import React from 'react';
 import styled  from 'styled-components';
 import arrowRight from '../../assets/icon-arrow-right.svg';
 
-const InvoiceListItem = () => {
+const InvoiceListItem = ({item}) => {
+    console.log(item)
     return(
         <ListItem>
-            <div>RT3080</div>
-            <div>Due 19 Aug 2015</div>
-            <div>Jensen Huang</div>
-            <div>&#163; 1.800,00</div>
-            <div><span>.</span> Paid</div>
+            <div>{item.id}</div>
+            <div>Due { new Date(item.paymentDue).toUTCString().slice(4, 16)}</div>
+            <div>{item.clientName}</div>
+            <div>&#163; {item.total.toLocaleString("en-GB", { style: "currency", currency: "GBP"}).slice(1)}</div>
+            <div><span>.</span> {item.status}</div>
             <img src = {arrowRight} alt="arrow right"/>
         </ListItem>    
     )
@@ -64,6 +65,7 @@ const ListItem = styled.li`
                 height: 40px;
                 line-height: 25px;
                 text-align: center;
+                text-transform: capitalize;
                 margin-right: 15px;
                 span{
                     font-size: 40px;                    

@@ -3,19 +3,29 @@ import styled  from 'styled-components';
 import Header from './Headers/Header';
 import Empty from './Empty';
 import InvoiceListItem from './Invoices/InvoiceListItem'; 
+import data from '../data.json';
 
 
 const Main = ({theme}) => {
-    const [list, setList] = useState([]);
+    const [list, setList] = useState(data);
+    console.log(list);
+
+const onStatusSelected = (status) => {
+    let filteredList = data.filter(item => item.status === status);
+    setList(filteredList);
+}    
 
     return(
         <MainContainer>
-            <Header theme = { theme }/>
-            { !list.length? 
-            <InvoicesListContainer>                
-                <InvoiceListItem/>
-                <InvoiceListItem/>
-                <InvoiceListItem/>
+            <Header onStatusSelected = {onStatusSelected}  theme = { theme }/>
+            { list.length? 
+            <InvoicesListContainer>    
+                {
+                    list.map(item =>{
+                       return <InvoiceListItem item = { item } key = { item.id}/>
+                    })
+                }            
+                
             </InvoicesListContainer>
             : <Empty/>}
         </MainContainer>

@@ -3,7 +3,7 @@ import styled  from 'styled-components';
 import Form from '../Forms/Form';
 import AddButton from '../Buttons/AddButton';
 
-const Header = ({theme}) => {
+const Header = ({onStatusSelected, theme}) => {
     return(
         <HeaderContainer>
             <div>
@@ -11,7 +11,7 @@ const Header = ({theme}) => {
                 <p> No invoices </p>
             </div>
             <FormContainer>
-                <Form theme = { theme }/>
+                <Form onStatusSelected = {onStatusSelected} theme = { theme }/>
                 <AddButton/>
             </FormContainer>
         </HeaderContainer>
