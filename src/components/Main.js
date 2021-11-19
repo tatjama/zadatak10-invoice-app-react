@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState }from 'react';
 import styled  from 'styled-components';
 import Header from './Headers/Header';
 import Empty from './Empty';
-import InvoiceList from './Invoices/InvoiceList'; 
+import InvoiceListItem from './Invoices/InvoiceListItem'; 
 
 
 const Main = ({theme}) => {
+    const [list, setList] = useState([]);
 
     return(
         <MainContainer>
             <Header theme = { theme }/>
-            {/*<Empty/>*/}
+            { !list.length? 
             <InvoicesListContainer>                
-                <InvoiceList/>
-                <InvoiceList/>
-                <InvoiceList/>
+                <InvoiceListItem/>
+                <InvoiceListItem/>
+                <InvoiceListItem/>
             </InvoicesListContainer>
-            
+            : <Empty/>}
         </MainContainer>
     )
 }

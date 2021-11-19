@@ -2,22 +2,22 @@ import React from 'react';
 import styled  from 'styled-components';
 import arrowRight from '../../assets/icon-arrow-right.svg';
 
-const InvoiceList = () => {
+const InvoiceListItem = () => {
     return(
-        <InvoiceListStyling>
+        <ListItem>
             <div>RT3080</div>
             <div>Due 19 Aug 2015</div>
             <div>Jensen Huang</div>
             <div>&#163; 1.800,00</div>
             <div><span>.</span> Paid</div>
             <img src = {arrowRight} alt="arrow right"/>
-        </InvoiceListStyling>    
+        </ListItem>    
     )
 }
 
-export default InvoiceList;
+export default InvoiceListItem;
 
-const InvoiceListStyling = styled.li` 
+const ListItem = styled.li` 
        margin: 16px 0 ;
        padding: 16px 32px;
        background-color: ${props => props.theme.backgroundInvoice};
@@ -71,6 +71,40 @@ const InvoiceListStyling = styled.li`
             }
             &:nth-child(6){
                 width: 10%;
-            }
+            }            
         }
+        @media screen and (max-width:600px){
+            padding: 24px;
+                flex-wrap: wrap;
+                div{                    
+                    &:nth-child(1){
+                        width: 50%;
+                        margin-bottom: 24px;
+                    }
+                    &:nth-child(2){
+                        order: 3;
+                        width: 60%;
+                        margin-bottom: 8px;
+                    }
+                    &:nth-child(3){
+                        order: 2;
+                        width: 50%;
+                        margin-bottom: 24px;
+                        text-align: right;
+                    }
+                    &:nth-child(4){
+                        order: 3;
+                        width: 50%;
+                    }
+                    &:nth-child(5){
+                        order: 5;
+                        width: 37%;
+                        margin-top: -24px;
+                        margin-right: 0;
+                    }
+                }
+                img{
+                        display: none;
+                    }
+            }
 `
