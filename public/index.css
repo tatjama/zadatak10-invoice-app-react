@@ -30,29 +30,42 @@ h3{
     letter-spacing: -0.8px;
     font-weight: 500;
 }
+h4{
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: -0.31px;
+    font-weight: 700;
+}
 p{
     font-size: 12px;
     line-height: 15px;
     letter-spacing: -0.25px;
 }
-span{
-    font-weight: 700;
-}
+
 button{
     outline: none;
     border: transparent;
+    font-family: "Spartan", sans-serif;
     font-size: 12px;
     line-height: 15px;
     letter-spacing: -0.25px;
     font-weight: 700;
-    padding: 17px 23px;
+    padding: 17px 24px;
     color: #fff;
     background-color: #7C5DFA;
+    cursor: pointer;
     border-radius:25px;
     -webkit-border-radius:25px;
     -moz-border-radius:25px;
     -ms-border-radius:25px;
     -o-border-radius:25px;
+}
+button:hover{
+    background-color: #9277FF;
+}
+
+a{
+    text-decoration: none;
 }
 @media screen and (max-width: 600px) {
     h1{

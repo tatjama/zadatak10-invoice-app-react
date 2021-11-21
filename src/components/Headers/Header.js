@@ -3,12 +3,12 @@ import styled  from 'styled-components';
 import Form from '../Forms/Form';
 import AddButton from '../Buttons/AddButton';
 
-const Header = ({onStatusSelected, theme}) => {
+const Header = ({num, onStatusSelected, theme}) => {
     return(
         <HeaderContainer>
             <div>
-                <h1> Invoices </h1>
-                <p> No invoices </p>
+                <h1> Invoices </h1> 
+                {(num) ? <p><span>There are</span> {num}<span> total</span> invoices</p>: <p> No invoices </p>}                
             </div>
             <FormContainer>
                 <Form onStatusSelected = {onStatusSelected} theme = { theme }/>
@@ -30,6 +30,11 @@ const HeaderContainer = styled.header`
     }
     p{
         color: ${props => props.theme.paragraphColor};// #888EB0;//#DFE3FA
+        @media screen and (max-width: 600px) {
+            span{
+                display: none;
+            }
+        }
     }    
  `
  const FormContainer = styled.div`  

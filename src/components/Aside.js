@@ -43,11 +43,15 @@ const AsideContainer = styled.aside`
     border-radius: 0px 20px 20px 0px;
     @media screen and (max-width: 1000px) {
         width: 100%;
+        height: 80px;
         flex-direction: row;
         border-radius: 0;
         div{
             display: flex;            
         }
+    }
+    @media screen and (max-width: 600px){
+        height: 72px;
     }
 `;
 const ImageMask = styled.div`

@@ -1,18 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled  from 'styled-components';
 import arrowRight from '../../assets/icon-arrow-right.svg';
 
 const InvoiceListItem = ({item}) => {
     console.log(item)
     return(
-        <ListItem>
-            <div>{item.id}</div>
-            <div>Due { new Date(item.paymentDue).toUTCString().slice(4, 16)}</div>
-            <div>{item.clientName}</div>
-            <div>&#163; {item.total.toLocaleString("en-GB", { style: "currency", currency: "GBP"}).slice(1)}</div>
-            <div><span>.</span> {item.status}</div>
-            <img src = {arrowRight} alt="arrow right"/>
-        </ListItem>    
+        <Link to = {`/invoice/${item.id}`}  >
+            <ListItem>            
+                <div>{item.id}</div>
+                <div>Due { new Date(item.paymentDue).toUTCString().slice(4, 16)}</div>
+                <div>{item.clientName}</div>
+                <div>&#163; {item.total.toLocaleString("en-GB", { style: "currency", currency: "GBP"}).slice(1)}</div>
+                <div><span>.</span> {item.status}</div>
+                <img src = {arrowRight} alt="arrow right"/>            
+            </ListItem>
+        </Link>    
     )
 }
 
@@ -75,7 +78,7 @@ const ListItem = styled.li`
                 width: 10%;
             }            
         }
-        @media screen and (max-width:600px){
+        @media screen and (max-width:700px){
             padding: 24px;
                 flex-wrap: wrap;
                 div{                    

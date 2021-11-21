@@ -20,9 +20,7 @@ const AddButtonStyling = styled.button`
     display: flex;
     align-items: center;
     cursor: pointer;
-    &:hover{
-        background-color: #9277FF;
-    }
+    
     div{
         width: 32px;
         height: 32px;

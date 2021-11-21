@@ -1,4 +1,5 @@
 import React, { useState }from 'react';
+//import { Link } from 'react-router-dom';
 import styled  from 'styled-components';
 import Header from './Headers/Header';
 import Empty from './Empty';
@@ -17,12 +18,12 @@ const onStatusSelected = (status) => {
 
     return(
         <MainContainer>
-            <Header onStatusSelected = {onStatusSelected}  theme = { theme }/>
+            <Header num = {list.length} onStatusSelected = {onStatusSelected}  theme = { theme }/>
             { list.length? 
             <InvoicesListContainer>    
                 {
                     list.map(item =>{
-                       return <InvoiceListItem item = { item } key = { item.id}/>
+                       return <InvoiceListItem item = { item } key = { item.id}/>                            
                     })
                 }            
                 
