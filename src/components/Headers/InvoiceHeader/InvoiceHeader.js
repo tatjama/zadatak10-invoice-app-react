@@ -1,13 +1,13 @@
 import React from 'react';
 import styled  from 'styled-components';
-import Status from './Status';
+import HeaderStatus from './HeaderStatus';
 import Buttons from './Buttons';
 
 const InvoiceHeader = ({status}) => {
 
     return(
         <HeaderContainer>
-            <Status status = {status}/>
+            <HeaderStatus status = {status}/>
             <ButtonsResponsive>
                 <Buttons/>         
             </ButtonsResponsive>    

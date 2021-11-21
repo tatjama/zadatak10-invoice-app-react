@@ -4,7 +4,7 @@ import arrowDown from '../../assets/icon-arrow-down.svg';
 import InputRadio from './InputRadio'; 
 
 
-const Form = ({onStatusSelected, theme}) => {
+const SelectForm = ({onStatusSelected, theme}) => {
     const [isOpen , setIsOpen] = useState(false);
 
     const toggleForm = () => {
@@ -32,7 +32,7 @@ const Form = ({onStatusSelected, theme}) => {
     )
 }
 
-export default Form;
+export default SelectForm;
 
 const FormStyling = styled.form` 
     margin-right: 40px;    

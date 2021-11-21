@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled  from 'styled-components';
+import styled from 'styled-components';
 import arrowRight from '../../assets/icon-arrow-right.svg';
+import Status from './Status'; 
 
 const InvoiceListItem = ({item}) => {
     console.log(item)
@@ -12,7 +13,7 @@ const InvoiceListItem = ({item}) => {
                 <div>Due { new Date(item.paymentDue).toUTCString().slice(4, 16)}</div>
                 <div>{item.clientName}</div>
                 <div>&#163; {item.total.toLocaleString("en-GB", { style: "currency", currency: "GBP"}).slice(1)}</div>
-                <div><span>.</span> {item.status}</div>
+                <Status status = {item.status}/>                
                 <img src = {arrowRight} alt="arrow right"/>            
             </ListItem>
         </Link>    
@@ -46,7 +47,7 @@ const ListItem = styled.li`
             }
             &:nth-child(2){
                 color: ${props => props.theme.paragraphColor};
-                width: 20%;
+                width: 21%;
             }
             &:nth-child(3){
                 color: ${props => props.theme.tableColor};
@@ -58,24 +59,8 @@ const ListItem = styled.li`
                 line-height: 24px;
                 letter-spacing: -0.8px;
                 font-weight: bold;
-                width: 20%;
-            }
-            &:nth-child(5){
-                color: #FF8F00;
-                position: relative;
-                background-color: rgba(255, 143, 0, 0.06);
-                width: 15%;
-                height: 40px;
-                line-height: 25px;
-                text-align: center;
-                text-transform: capitalize;
-                margin-right: 15px;
-                span{
-                    font-size: 40px;                    
-                }
-            }
-            &:nth-child(6){
-                width: 10%;
+                width: 19%;
+                text-align: right;
             }            
         }
         @media screen and (max-width:700px){
@@ -100,13 +85,8 @@ const ListItem = styled.li`
                     &:nth-child(4){
                         order: 3;
                         width: 50%;
-                    }
-                    &:nth-child(5){
-                        order: 5;
-                        width: 37%;
-                        margin-top: -24px;
-                        margin-right: 0;
-                    }
+                        text-align: left;
+                    }                    
                 }
                 img{
                         display: none;

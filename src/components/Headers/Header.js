@@ -1,6 +1,6 @@
 import React from 'react';
 import styled  from 'styled-components';
-import Form from '../Forms/Form';
+import SelectForm from '../Forms/SelectForm';
 import AddButton from '../Buttons/AddButton';
 
 const Header = ({num, onStatusSelected, theme}) => {
@@ -11,7 +11,7 @@ const Header = ({num, onStatusSelected, theme}) => {
                 {(num) ? <p><span>There are</span> {num}<span> total</span> invoices</p>: <p> No invoices </p>}                
             </div>
             <FormContainer>
-                <Form onStatusSelected = {onStatusSelected} theme = { theme }/>
+                <SelectForm onStatusSelected = {onStatusSelected} theme = { theme }/>
                 <AddButton/>
             </FormContainer>
         </HeaderContainer>

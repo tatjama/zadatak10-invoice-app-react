@@ -12,6 +12,7 @@ const lightTheme ={
   backgroundField:  "#F2F2F2",
   backgroundItemsInvoice: "#F9FAFE",
   backgroundFooterInvoice: "#373B53",
+  backgroundDraft: "rgba(55, 59, 83, 0.06)",
   shadowField: " 0px 10px 20px rgba(72, 84, 159, 0.25)",
   inputRadio:"#DFE3FA",
   backgroundInvoice:"#FFFFFF",
@@ -20,6 +21,8 @@ const lightTheme ={
   paragraphColor: "#888EB0",
   paragraphHover: "#7E88C3",
   paragraphInvoice: "#7E88C3",
+  draftColor:"#373B53" ,
+  
 }
 const darkTheme ={
   white: "#FFFFFF",
@@ -27,6 +30,7 @@ const darkTheme ={
   backgroundField: "#252945",
   backgroundItemsInvoice: "#252945",
   backgroundFooterInvoice: "#0C0E16",
+  backgroundDraft: "rgba(223, 227, 250, 0.06)",
   shadowField: "0px 10px 20px rgba(0, 0, 0, 0.25)",  
   inputRadio:"#1E2139",
   backgroundInvoice:"#1E2139",
@@ -35,7 +39,7 @@ const darkTheme ={
   paragraphColor: "#DFE3FA",
   paragraphHover: " #888EB0",
   paragraphInvoice: "#DFE3FA",
-  
+  draftColor: "#DFE3FA",
 }
 const themes = {
   light: lightTheme,
