@@ -5,9 +5,11 @@ const FormButtons = ({status}) => {
 
     return(
         <ButtonsContainer>
-            <Button>Discard</Button>
-                <Button >Save as Draft</Button>
-                <Button >Save & Send</Button>
+            <FirstButtons>
+                <button>Discard</button>
+                <button >Save as Draft</button>
+            </FirstButtons>
+                <button >Save & Send</button>
         </ButtonsContainer>  
     )
 }
@@ -19,13 +21,22 @@ const ButtonsContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center; 
+    padding:0 48px;
     @media screen and (max-width: 600px){
-        justify-content: space-around;
+        justify-content: space-between;
+        padding: 0 16px;
+        button{
+            padding: 17px 16px;
+        }
+        
     }
 `
-
-const Button = styled.button` 
-    &:nth-of-type(1){
+const FirstButtons = styled.section`
+    width: 74%;
+    display:flex;
+    justify-content: space-between;
+    button{
+        &:nth-of-type(1){
             background-color: #F9FAFE;
             color: #7E88C3;
             &:hover{
@@ -39,9 +50,10 @@ const Button = styled.button`
             &:hover{
                 background-color: #0C0E16;
             }
-        }
-        @media screen and (max-width: 600px) {
-            padding: 17px 16px;
-        }
+        }        
+    }
+    @media screen and (max-width: 600px) {
+        width: 65%;
+    }
 `
 

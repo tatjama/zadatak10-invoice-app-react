@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
 
 const Modal = ({handleGoBack}) => {
+    const senderAddress = useRef('');
+
+
     return(
         <ModalContainer>     
-            <FormContainer >
+            <FormContainer preventDefault ={ true }>
                 <LinkContainer onClick = { handleGoBack }>
                     <GoBack/>    
                 </LinkContainer>   
@@ -15,7 +18,7 @@ const Modal = ({handleGoBack}) => {
                 <fieldset>
                     <legend>Bill From</legend>
                     <label htmlFor="senderAddress">Street Address
-                        <input type="text" name="senderAddress" />
+                        <input type="text" name="senderAddress"  ref={senderAddress}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="senderCity">City
@@ -87,12 +90,12 @@ const Modal = ({handleGoBack}) => {
                         </label>
                         <img src = { bin } alt = "bin"/>
                     </FlexWrapper>
-                    <ButtonAddItem> + Add New Item</ButtonAddItem>
-                    <GradientDiv>
+                    <ButtonAddItem> + Add New Item</ButtonAddItem>                    
+                </fieldset>
+                <GradientDiv>
                         <div></div>
                         <FormButtons/>
                     </GradientDiv>
-                </fieldset>
             </FormContainer>
         </ModalContainer>
     )
@@ -107,7 +110,7 @@ const ModalContainer = styled.section`
     left: 103px;
     display: flex;
     background: rgba(0, 0, 0, 0.5);
-    
+    overflow: scroll;
     @media screen and (max-width: 1000px) {
         top: 80px;
         left: 0;
@@ -127,6 +130,7 @@ const FormContainer = styled.form`
     width: 616px;
     height: 100%;
     background-color: ${props => props.theme.backgroundAddInvoice};
+    overflow: scroll;
     border-radius: 0 28px 28px 0;
     padding: 8px;
     
@@ -252,7 +256,7 @@ const FormContainer = styled.form`
             background-color: #DFE3FA ;
         }
         @media screen and (max-width:600px){
-            margin: 48px 0 24px 0;
+            margin: 48px 0 0 0;
         }
   `
   const GradientDiv = styled.div`
