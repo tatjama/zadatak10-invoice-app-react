@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
 import {   ThemeProvider } from 'styled-components';
 import Home from './pages/Home';
 import Invoice from './pages/Invoice';
-
+//import Modal from './pages/Modal';
 
 
 const lightTheme ={
@@ -69,6 +69,10 @@ function App() {
               path="/invoice/:id" 
               element = {<Invoice theme = { theme } setTheme = { setTheme }/>}
             />
+            {/*<Route name="form"
+            path = "/form"
+            element = {<Modal theme = { theme } setTheme = { setTheme }/>}
+  />*/}
           </Routes>   
          </Router>
       </ThemeProvider>

@@ -40,5 +40,8 @@ const Button = styled.button`
                 background-color: #0C0E16;
             }
         }
+        @media screen and (max-width: 600px) {
+            padding: 17px 16px;
+        }
 `
 

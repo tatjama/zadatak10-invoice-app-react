@@ -67,7 +67,7 @@ button:hover{
 a{
     text-decoration: none;
 }
-fieldset{
+/*fieldset{
     margin: 48px;
     border: none; 
 }
@@ -75,7 +75,7 @@ label{
     margin-top: 24px;
     display: block;
     color: #7E88C3;
-}
+}*/
 input, select, option{
     height: 48px;
     width: 100%;

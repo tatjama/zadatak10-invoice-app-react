@@ -1,14 +1,14 @@
 import React from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
-import FormButtons  from './Buttons/FormButtons';
-import GoBack  from './GoBack';
+import FormButtons  from '../components/Buttons/FormButtons';
+import GoBack  from '../components/GoBack';
 
-const Modal = () => {
+const Modal = ({handleGoBack}) => {
     return(
         <ModalContainer>     
             <FormContainer >
-                <LinkContainer>
+                <LinkContainer onClick = { handleGoBack }>
                     <GoBack/>    
                 </LinkContainer>   
                 <h1>New invoice</h1>
@@ -88,7 +88,10 @@ const Modal = () => {
                         <img src = { bin } alt = "bin"/>
                     </FlexWrapper>
                     <ButtonAddItem> + Add New Item</ButtonAddItem>
-                    <FormButtons/>
+                    <GradientDiv>
+                        <div></div>
+                        <FormButtons/>
+                    </GradientDiv>
                 </fieldset>
             </FormContainer>
         </ModalContainer>
@@ -140,6 +143,15 @@ const FormContainer = styled.form`
         letter-spacing: -0.38;
         color: #777F98;       
     }
+    fieldset{
+       margin: 48px;
+        border: none; 
+    }
+    label{
+        margin-top: 24px;
+        display: block;
+        color: #7E88C3;
+    }
     legend{
         color:#7C5DFA;
         font-weight: 700;        
@@ -160,18 +172,19 @@ const FormContainer = styled.form`
        border: 1px solid #7C5DFA; 
     }    
     @media screen and (max-width:600px){
+        width: 100%;
         h1{
-            margin: 24px;
+            margin: 24px 16px;
         }
         fieldset{
-            margin: 24px;
+            margin: 24px 16px;
         }
     }
  `
  const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    
+    flex-wrap: wrap;
     label{
         width: 30%;        
     }
@@ -203,13 +216,62 @@ const FormContainer = styled.form`
         margin-top: 50px;
         cursor: pointer;
     }
+    @media screen and (max-width:600px){
+        label{
+            width: 152px;
+            &:nth-child(3){
+                width: 100%;
+            }
+        }
+        label[for = "invoiceDate"]{
+            width: 100%;
+        }
+        label[for = "paymentTerms"]{
+            width: 100%;
+        }
+        label[for = "itemName"]{
+            width: 100%;
+        }
+        label[for = "itemQuantity"]{
+            width: 21%;
+        } 
+        label[for = "itemPrice"]{
+            width: 33%;
+        }
+        label[for = "total"]{
+            width: 20%;
+        }
+    }
   `
   const ButtonAddItem = styled.button`   
         width: 100%;
         background-color:${props => props.theme.backgroundItemsInvoice};
         color: ${props => props.theme.paragraphInvoice};
         margin: 16px 0 47px 0;
-    &:hover{
-        background-color: #DFE3FA ;
-    }
+        &:hover{
+            background-color: #DFE3FA ;
+        }
+        @media screen and (max-width:600px){
+            margin: 48px 0 24px 0;
+        }
   `
+  const GradientDiv = styled.div`
+        width: 100%;
+        height: 155px;
+        div{
+            &:first-child{
+                height:64px;
+                margin-bottom: 21px;
+                background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.1) 100%);
+                display: none;
+            }
+        }
+        
+        @media screen and (max-width:600px){
+            div{
+                &:first-child{
+                    display: block;
+                }
+            }            
+        }
+   `
