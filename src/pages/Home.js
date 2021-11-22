@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled  from 'styled-components';
 import Main from '../components/Main';
 import Aside from '../components/Aside';
+import Modal from '../components/Modal';
 
 
 const Home = ({theme, setTheme}) => {
 
     console.log(theme)
 
+    const [isAddForm, setIsAddForm] = useState(false)
+
+    const onAddForm = () => {
+        setIsAddForm(true);
+    }
+
     return(
             <Container  >
-                <Aside theme = {theme} setTheme={setTheme} />            
-                <Main theme = {theme} />
+                <Aside theme = {theme} setTheme={setTheme} />                            
+                <Main theme = {theme}  handleAddForm = {onAddForm}/>
+                {isAddForm && <Modal/>}
             </Container>
     )
 }

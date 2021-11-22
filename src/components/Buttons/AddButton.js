@@ -2,9 +2,10 @@ import React from 'react';
 import styled  from 'styled-components';
 import  plus from '../../assets/icon-plus.svg';
 
-const AddButton = () => {
+const AddButton = ({handleAddForm}) => {
+    
     return(
-    <AddButtonStyling type="button">
+    <AddButtonStyling onClick = {handleAddForm} type="button">
         <div>
             <img src = { plus } alt="plus"/>
         </div>

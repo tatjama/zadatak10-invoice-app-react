@@ -7,7 +7,7 @@ import InvoiceListItem from './Invoices/InvoiceListItem';
 import data from '../data.json';
 
 
-const Main = ({theme}) => {
+const Main = ({theme, handleAddForm}) => {
     const [list, setList] = useState(data);
     console.log(list);
 
@@ -18,7 +18,12 @@ const onStatusSelected = (status) => {
 
     return(
         <MainContainer>
-            <Header num = {list.length} onStatusSelected = {onStatusSelected}  theme = { theme }/>
+            <Header 
+                num = {list.length} 
+                onStatusSelected = {onStatusSelected} 
+                handleAddForm = {handleAddForm} 
+                theme = { theme }
+                />
             { list.length? 
             <InvoicesListContainer>    
                 {

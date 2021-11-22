@@ -3,7 +3,9 @@ import styled  from 'styled-components';
 import SelectForm from '../Forms/SelectForm';
 import AddButton from '../Buttons/AddButton';
 
-const Header = ({num, onStatusSelected, theme}) => {
+const Header = ({num, onStatusSelected, theme, handleAddForm}) => {
+
+
     return(
         <HeaderContainer>
             <div>
@@ -12,7 +14,7 @@ const Header = ({num, onStatusSelected, theme}) => {
             </div>
             <FormContainer>
                 <SelectForm onStatusSelected = {onStatusSelected} theme = { theme }/>
-                <AddButton/>
+                <AddButton handleAddForm = { handleAddForm} />
             </FormContainer>
         </HeaderContainer>
     )
