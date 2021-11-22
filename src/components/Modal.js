@@ -2,11 +2,15 @@ import React from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
 import FormButtons  from './Buttons/FormButtons';
+import GoBack  from './GoBack';
 
 const Modal = () => {
     return(
-        <ModalContainer>
+        <ModalContainer>     
             <FormContainer >
+                <LinkContainer>
+                    <GoBack/>    
+                </LinkContainer>   
                 <h1>New invoice</h1>
                 <fieldset>
                     <legend>Bill From</legend>
@@ -109,6 +113,13 @@ const ModalContainer = styled.section`
         top: 72px;
     }
 `
+const LinkContainer = styled.div` 
+    display: none;
+    margin: 24px;
+    @media screen and (max-width:600px){
+        display: block;
+    }
+`
 const FormContainer = styled.form`
     width: 616px;
     height: 100%;
@@ -121,6 +132,7 @@ const FormContainer = styled.form`
         line-height: 32px;
         letter-spacing: -0.5px;
         margin: 48px;
+        color: ${props => props.theme.titleColor};
     }
     h2{
         font-size: 18px;
@@ -147,6 +159,14 @@ const FormContainer = styled.form`
     input:hover, select:hover{
        border: 1px solid #7C5DFA; 
     }    
+    @media screen and (max-width:600px){
+        h1{
+            margin: 24px;
+        }
+        fieldset{
+            margin: 24px;
+        }
+    }
  `
  const FlexWrapper = styled.div`
     display: flex;
