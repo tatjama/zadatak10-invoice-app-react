@@ -1,23 +1,26 @@
 import React from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled  from 'styled-components';
 import Aside from '../components/Aside';
 import InvoiceContainer from './../components/Invoices/InvoiceContainer';
 import Buttons from '../components/Headers/InvoiceHeader/Buttons';
 
 
-const Invoice = ({theme, setTheme}) => {
-
+const Invoice = ({theme, setTheme, invoices}) => {
+   // const invoicesFromLS = JSON.parse(localStorage.getItem('invoices'))
     const location = useLocation();
-    const navigate = useNavigate();
-    
-    const id = location.pathname.split('/')[2];
-    console.log(id);
+    console.log(location);
+    console.log(location.pathname);
+    console.log(invoices);
+    const invoiceId = location.pathname.split('/')[2];
+    console.log(invoiceId);
+    const invoice = invoices.filter(item => item.id === invoiceId)[0];
+        
 
     return(
             <Container  >
                 <Aside theme = {theme} setTheme={setTheme} />            
-                <InvoiceContainer invoiceId = {id} theme = {theme} />
+                <InvoiceContainer invoice = { invoice } theme = {theme} />
                 <InvoiceFooter>
                     <Buttons/>
                 </InvoiceFooter>

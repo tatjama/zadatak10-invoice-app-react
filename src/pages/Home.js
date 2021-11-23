@@ -6,7 +6,8 @@ import Modal from './Modal';
 //import {useNavigate} from 'react-router-dom';
 
 
-const Home = ({theme, setTheme}) => {
+const Home = ({theme, setTheme, invoices, onSubmitForm}) => {
+     const [ isUpdate, setIsUpdate ] = useState(false);      
    // const navigate = useNavigate();
     console.log(theme)
 
@@ -14,18 +15,34 @@ const Home = ({theme, setTheme}) => {
 
     const onAddForm = () => {
         setIsAddForm(true);
+        setIsUpdate(false)
         //navigate('/form');
     }
     const onGoBack = () => {
         setIsAddForm(false);
+        setIsUpdate(true);
     }
-
+    console.log(isAddForm)
     return(
-            <Container  >
-                <Aside theme = {theme} setTheme={setTheme} />                            
-                <Main theme = {theme}  handleAddForm = {onAddForm}/>
-                {isAddForm && <Modal handleGoBack = {onGoBack }/>}
-            </Container>
+        <Container  >
+                <Aside theme = {theme} setTheme={setTheme} />             
+                { (isUpdate || !isAddForm) ? <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/> 
+                : <> 
+                    <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
+                    <Modal initialInvoices = {invoices} onSubmitForm = { onSubmitForm } handleGoBack = { onGoBack }/>
+                </>
+                }               
+        </Container>
+            /*<Container  >
+                <Aside theme = {theme} setTheme={setTheme} />             
+                { isUpdate ? <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/> 
+                : isAddForm ?<> <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
+                                <Modal initialInvoices = {invoices} onSubmitForm = { onSubmitForm } handleGoBack = { onGoBack }/>
+                            </>
+                            :<Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
+                }               
+                
+            </Container>*/
     )
 }
 

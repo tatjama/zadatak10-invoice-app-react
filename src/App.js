@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes , Route , useNavigate} from 'react-router-dom';
 import {   ThemeProvider } from 'styled-components';
 import Home from './pages/Home';
 import Invoice from './pages/Invoice';
 //import Modal from './pages/Modal';
-
+import data from './data.json';
 
 const lightTheme ={
   white: "#FFFFFF",
@@ -53,21 +53,54 @@ const themes = {
 }
 
 function App() {  
-  
+  const initialInvoices = () =>localStorage.getItem("invoice")?
+                          JSON.parse(localStorage.getItem("invoices")): data;
+  const [invoices, setInvoices ] = useState(initialInvoices());
   const [theme, setTheme] = useState("light");
-  
+  //const navigate = useNavigate();
   console.log(themes[theme])
+
+    
+    useEffect(() =>{
+      localStorage.setItem("invoices", JSON.stringify(invoices))
+    },[invoices])
+
+    const setInvoicesOnSubmitForm = (value) => {
+      console.log(value)
+      setInvoices(value);
+      //navigate('/');
+      console.log(invoices)
+
+    }
+
+  /*const url = './data.json';
+    const fetchInvoices = async() => {
+    let response = await fetch(url);
+    let data = await response.json();
+    
+    setInvoices(data);
+    localStorage.setItem("invoices", JSON.stringify(data));
+  
+  useEffect(() => {
+    fetchInvoices();
+  }, [])*/
+
+  console.log(invoices)
   return (
       <ThemeProvider theme = { themes[theme] } >     
         <Router>   
           <Routes>
             <Route name="home" 
               exact path="/" 
-              element = {<Home theme = { theme } setTheme = { setTheme }/> }
+              element = {<Home 
+                      invoices = {invoices} 
+                      theme = { theme } 
+                      onSubmitForm = {(value) => setInvoicesOnSubmitForm(value) }
+                      setTheme = { setTheme }/> }
             />
             <Route name="invoice" 
               path="/invoice/:id" 
-              element = {<Invoice theme = { theme } setTheme = { setTheme }/>}
+              element = {<Invoice invoices = { invoices } theme = { theme } setTheme = { setTheme }/>}
             />
             {/*<Route name="form"
             path = "/form"

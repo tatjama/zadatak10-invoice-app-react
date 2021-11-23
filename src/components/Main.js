@@ -4,11 +4,13 @@ import styled  from 'styled-components';
 import Header from './Headers/Header';
 import Empty from './Empty';
 import InvoiceListItem from './Invoices/InvoiceListItem'; 
-import data from '../data.json';
+//import data from '../data.json';
+//import {InvoicesContext} from '../App';
 
 
-const Main = ({theme, handleAddForm}) => {
-    const [list, setList] = useState(data);
+const Main = ({theme, handleAddForm, invoices}) => {
+    const data = invoices;
+    const [list, setList] = useState(invoices);
     console.log(list);
 
 const onStatusSelected = (status) => {

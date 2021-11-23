@@ -1,7 +1,7 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const FormButtons = ({status}) => {
+const FormButtons = ({status, submitForm}) => {
 
     return(
         <ButtonsContainer>
@@ -9,7 +9,7 @@ const FormButtons = ({status}) => {
                 <button>Discard</button>
                 <button >Save as Draft</button>
             </FirstButtons>
-                <button >Save & Send</button>
+                <button onClick = {submitForm} >Save & Send</button>
         </ButtonsContainer>  
     )
 }
