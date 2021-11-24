@@ -1,10 +1,11 @@
 import React, {useState, useRef } from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
-import FormButtons  from '../components/Buttons/FormButtons';
+import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
 
-const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
+const ModalEdit = ({invoice, initialInvoices,onUpdateForm , handleGoBack}) => {
+    
     class Address  {
         constructor(street = "", city = "", postCode = "", country = ""){
             this.street = street;
@@ -68,8 +69,6 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
          }
     }
     
-    
-    
     const createdAt = useRef('');
     const description = useRef('');
     const paymentTerms = useRef('');
@@ -86,62 +85,66 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
     const itemName = useRef('');
     const itemQuantity = useRef('');
     const itemPrice = useRef('');
-   
+    
     const [isAddItemOpen, setIsAddItemOpen] = useState(true);
-    const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date(), "", "1", "", "", "",
-         "", "", "", "", "", "", "", []));
+    const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(invoice.createdAt, invoice.description, 
+        invoice.paymentTerms, invoice.clientName, invoice.clientEmail, invoice.senderAddress.street,
+         invoice.senderAddress.city, invoice.senderAddress.postCode, invoice.senderAddress.country, 
+         invoice.clientAddress.street, invoice.clientAddress.city, invoice.clientAddress.postCode, 
+         invoice.clientAddress.country, invoice.items));
+
 
     const addNewItem = () => {        
-            setIsAddItemOpen(true);  
-            const itemNameValue = itemName.current.value;
-                const itemQuantityValue = itemQuantity.current.value;
-                const itemPriceValue = itemPrice.current.value;
-        
-                let tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-                let tempInvoice = {...invoiceAdd};
-                tempInvoice.items.push(tempItem);
-                setInvoiceAdd(tempInvoice);
-            }
+        setIsAddItemOpen(true);
+        const itemNameValue = itemName.current.value;
+        const itemQuantityValue = itemQuantity.current.value;
+        const itemPriceValue = itemPrice.current.value;
+        let tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
+        let tempInvoice = {...invoiceEdit};
+        tempInvoice.items.push(tempItem);
+        setInvoiceEdit(tempInvoice);
+        }
 
-            const  createId = () =>  {
-                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                const firstLetter = chars[ Math.floor(Math.random() *25)];
-                const secondLetter = chars[ Math.floor(Math.random() *25)];
-                const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
-                return firstLetter + secondLetter + numbers;
-            } 
-            const onFormSubmit = (event) => {
-                event.preventDefault();
-            const createdAtValue = createdAt.current.value;
-            const descriptionValue = description.current.value;
-            const paymentTermsValue = paymentTerms.current.value;
-            const clientNameValue = clientName.current.value;
-            const clientEmailValue = clientEmail.current.value;
-            const senderStreetValue = senderStreet.current.value;
-            const senderCityValue = senderCity.current.value;
-            const senderCountryValue = senderCountry.current.value;
-            const senderPostCodeValue = senderPostCode.current.value;
-            const clientStreetValue = clientStreet.current.value;
-            const clientCityValue = clientCity.current.value;
-            const clientCountryValue = clientCountry.current.value;
-            const clientPostCodeValue = clientPostCode.current.value;
-            const itemNameValue = itemName.current.value;
-            const itemQuantityValue = itemQuantity.current.value;
-            const itemPriceValue = itemPrice.current.value;
-        
-                const tempInvoice = new Invoice(createdAtValue,  descriptionValue, paymentTermsValue, 
-                    clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
-                    senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
-                    clientCountryValue, invoiceAdd.items );
-                const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-                tempInvoice.addItem(tempItem);
-                tempInvoice.calculateTotal();
-                tempInvoice.id = (invoice.id)? invoice.id: createId();
-                console.log(tempInvoice);
-                onSubmitForm(tempInvoice);
-                handleGoBack();
-            }        
-    
+        const  createId = () =>  {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const firstLetter = chars[ Math.floor(Math.random() *25)];
+            const secondLetter = chars[ Math.floor(Math.random() *25)];
+            const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
+            return firstLetter + secondLetter + numbers;
+        } 
+
+    const onFormSubmit = (event) => {
+        event.preventDefault();
+    const createdAtValue = createdAt.current.value;
+    const descriptionValue = description.current.value;
+    const paymentTermsValue = paymentTerms.current.value;
+    const clientNameValue = clientName.current.value;
+    const clientEmailValue = clientEmail.current.value;
+    const senderStreetValue = senderStreet.current.value;
+    const senderCityValue = senderCity.current.value;
+    const senderCountryValue = senderCountry.current.value;
+    const senderPostCodeValue = senderPostCode.current.value;
+    const clientStreetValue = clientStreet.current.value;
+    const clientCityValue = clientCity.current.value;
+    const clientCountryValue = clientCountry.current.value;
+    const clientPostCodeValue = clientPostCode.current.value;
+    const itemNameValue = itemName.current.value;
+    const itemQuantityValue = itemQuantity.current.value;
+    const itemPriceValue = itemPrice.current.value;
+
+        const tempInvoice = new Invoice(createdAtValue,  descriptionValue, paymentTermsValue, 
+                            clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, 
+                            senderPostCodeValue, senderCountryValue, clientStreetValue, 
+                            clientCityValue, clientPostCodeValue, clientCountryValue, 
+                            invoiceEdit.items );
+        const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
+        tempInvoice.addItem(tempItem);
+        tempInvoice.calculateTotal();
+        tempInvoice.id = (invoice.id)? invoice.id: createId();
+        onUpdateForm(tempInvoice);
+        handleGoBack();
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
     }
@@ -156,50 +159,50 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
                 <fieldset>
                     <legend>Bill From</legend>
                     <label htmlFor="senderStreet">Street Address
-                        <input type="text" defaultValue = {invoiceAdd.senderAddress.street} name="senderStreet"  ref={senderStreet}/>
+                        <input type="text" defaultValue = {invoiceEdit.senderAddress.street} name="senderStreet"  ref={senderStreet}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="senderCity">City
-                            <input type="text" defaultValue = {invoiceAdd.senderAddress.city} name="senderCity" ref={senderCity}/>
+                            <input type="text" defaultValue = {invoiceEdit.senderAddress.city} name="senderCity" ref={senderCity}/>
                         </label>
                         <label htmlFor="senderPostCode">Post Code
-                            <input type="text" name="senderPostCode" defaultValue = {invoiceAdd.senderAddress.postCode} ref = {senderPostCode}/>
+                            <input type="text" name="senderPostCode" defaultValue = {invoiceEdit.senderAddress.postCode} ref = {senderPostCode}/>
                         </label>
                         <label htmlFor="senderCountry">Country
-                            <input type="text" name="senderCountry" defaultValue = {invoiceAdd.senderAddress.country} ref = {senderCountry}/> 
+                            <input type="text" name="senderCountry" defaultValue = {invoiceEdit.senderAddress.country} ref = {senderCountry}/> 
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <legend>Bill To</legend>
                     <label htmlFor="clientName">Client's name
-                        <input type="text" name="clientName" defaultValue = {invoiceAdd.clientName} ref = {clientName}/>
+                        <input type="text" name="clientName" defaultValue = {invoiceEdit.clientName} ref = {clientName}/>
                     </label>
                     <label htmlFor="clientEmail">Client's Email
-                        <input type="text" name="clientEmail" defaultValue = {invoiceAdd.clientEmail} ref = {clientEmail}/>
+                        <input type="text" name="clientEmail" defaultValue = {invoiceEdit.clientEmail} ref = {clientEmail}/>
                     </label>
                     <label htmlFor="clientStreet">Street Address
-                        <input type="text" name="clientStreet" defaultValue = {invoiceAdd.clientAddress.street} ref = {clientStreet}/>
+                        <input type="text" name="clientStreet" defaultValue = {invoiceEdit.clientAddress.street} ref = {clientStreet}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="clientCity">City
-                            <input type="text" name="clientCity" defaultValue = {invoiceAdd.clientAddress.city} ref = {clientCity}/>
+                            <input type="text" name="clientCity" defaultValue = {invoiceEdit.clientAddress.city} ref = {clientCity}/>
                         </label>
                         <label htmlFor="clientPostCode">Post Code
-                            <input type="text" name="clientPostCode" defaultValue = {invoiceAdd.clientAddress.postCode} ref = {clientPostCode}/>
+                            <input type="text" name="clientPostCode" defaultValue = {invoiceEdit.clientAddress.postCode} ref = {clientPostCode}/>
                         </label>
                         <label htmlFor="clientCountry">Country
-                            <input type="text" name="clientCountry" defaultValue = {invoiceAdd.clientAddress.country} ref = {clientCountry}/>
+                            <input type="text" name="clientCountry" defaultValue = {invoiceEdit.clientAddress.country} ref = {clientCountry}/>
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <FlexWrapper>
                         <label htmlFor="invoiceDate">Invoice Date
-                            <input type="date" name="invoiceDate" defaultValue = {invoiceAdd.createdAt} ref = {createdAt}/>
+                            <input type="date" name="invoiceDate" defaultValue = {invoiceEdit.createdAt} ref = {createdAt}/>
                         </label>
                         <label htmlFor="paymentTerms" >Payment Terms<br/>
-                            <select id="paymentTerms" name="paymentTerms" defaultValue = {invoiceAdd.paymentTerms} ref = {paymentTerms}>
+                            <select id="paymentTerms" name="paymentTerms" defaultValue = {invoiceEdit.paymentTerms} ref = {paymentTerms}>
                                 <option value="1">Net 1 Day</option>
                                 <option value="7">Net 7 Days</option>
                                 <option value="14">Net 14 Days</option>
@@ -208,7 +211,7 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
                         </label>
                     </FlexWrapper>
                     <label htmlFor="projectDescription">Project Description
-                        <input type="text" name="projectDescription" defaultValue = {invoiceAdd.description} ref = {description}/>
+                        <input type="text" name="projectDescription" defaultValue = {invoiceEdit.description} ref = {description}/>
                     </label>
                 </fieldset>
                 <fieldset>
@@ -221,7 +224,7 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
                         <ItemField></ItemField>
                     </FlexWrapper>
                     {
-                    invoiceAdd.items.map(item =>{
+                    invoiceEdit.items.map(item =>{
                         return<FlexWrapper key = {item.name}> 
                             <ItemField >
                          <input type="text"  defaultValue = {item.name}  />
@@ -241,13 +244,13 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
                     
                     { isAddItemOpen && <FlexWrapper>
                         <ItemField htmlFor="itemName">
-                         <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} ref = {itemName}/>
+                         <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} defaultValue = "" ref = {itemName}/>
                         </ItemField>
                         <ItemField htmlFor="itemQuantity">
-                        <input type="number" name="itemQuantity" onFocus = {() => itemQuantity.current.value = ""} ref = {itemQuantity}/>
+                        <input type="number" name="itemQuantity" onFocus = {() => itemQuantity.current.value = ""} defaultValue = "" ref = {itemQuantity}/>
                         </ItemField>
                         <ItemField htmlFor="itemPrice">
-                          <input type="number" name="itemPrice" onFocus = {() => itemPrice.current.value = ""} ref = {itemPrice}/>
+                          <input type="number" name="itemPrice" onFocus = {() => itemPrice.current.value = ""} defaultValue = "" ref = {itemPrice}/>
                         </ItemField>
                         <ItemField htmlFor="total">
                            <input type="number" name="total"/>
@@ -259,14 +262,14 @@ const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
                 </fieldset>
                 <GradientDiv>
                         <div></div>
-                        <FormButtons submitForm = { onFormSubmit }/>
+                        <EditButtons submitForm = { onFormSubmit }/>
                     </GradientDiv>
             </FormContainer>
         </ModalContainer>
     )
 }
 
-export default Modal;
+export default ModalEdit;
 
 const ModalContainer = styled.section` 
     width: 100%;
@@ -363,23 +366,7 @@ const FormContainer = styled.form`
     label[for = "paymentTerms"]{
         width: 48%;
     }
-    label[for = "itemName"]{
-        width: 42%;
-    } 
-    label[for = "itemQuantity"]{
-        width: 9%;
-    } 
-    label[for = "itemPrice"]{
-        width: 20%;
-    } 
-    label[for = "total"]{
-        width: 9%;
-        input{
-            border: transparent;
-            padding-left: 0;
-            color: ${props => props.theme.paragraphInvoice} !important;
-        }
-    } 
+     
     img{
         object-fit: contain;
         margin-top: 50px;
@@ -398,58 +385,45 @@ const FormContainer = styled.form`
         label[for = "paymentTerms"]{
             width: 100%;
         }
-        label[for = "itemName"]{
+    
+    }
+  `
+    const ItemField = styled.label`
+        &:nth-child(1){
+        width: 42%;
+    } 
+    &:nth-child(2){
+        width: 9%;
+    } 
+    &:nth-child(3){
+        width: 20%;
+    } 
+    &:nth-child(4){
+        width: 9%;
+        input{
+            border: transparent;
+            padding-left: 0;
+            color: ${props => props.theme.paragraphInvoice} !important;
+        }
+    } 
+    &:nth-child(5){
+        width: 15px;
+    }
+    @media screen and (max-width:600px){        
+        &:nth-child(1){
             width: 100%;
         }
-        label[for = "itemQuantity"]{
+        &:nth-child(2){
             width: 21%;
         } 
-        label[for = "itemPrice"]{
+        &:nth-child(3){
             width: 33%;
         }
-        label[for = "total"]{
+        &:nth-child(4){
             width: 20%;
         }
     }
-  `
-
-const ItemField = styled.label`
-&:nth-child(1){
-width: 42%;
-} 
-&:nth-child(2){
-width: 9%;
-} 
-&:nth-child(3){
-width: 20%;
-} 
-&:nth-child(4){
-width: 9%;
-input{
-    border: transparent;
-    padding-left: 0;
-    color: ${props => props.theme.paragraphInvoice} !important;
-}
-} 
-&:nth-child(5){
-width: 15px;
-}
-@media screen and (max-width:600px){        
-&:nth-child(1){
-    width: 100%;
-}
-&:nth-child(2){
-    width: 21%;
-} 
-&:nth-child(3){
-    width: 33%;
-}
-&:nth-child(4){
-    width: 20%;
-}
-}
-`
-
+    `
 
   const ButtonAddItem = styled.button`   
         width: 100%;

@@ -67,10 +67,16 @@ function App() {
 
     const setInvoicesOnSubmitForm = (value) => {
       console.log(value)
-      setInvoices(value);
-      //navigate('/');
-      console.log(invoices)
+      let tempInvoices = [...invoices];
+          tempInvoices.push(value);
+          setInvoices(tempInvoices);
+    }
 
+    const setInvoicesOnUpdateForm = (value) => {
+      let tempInvoices = [...invoices];
+      let filteredInvoices = tempInvoices.filter(invoice => invoice.id !== value.id);
+      filteredInvoices.push(value);
+      setInvoices(filteredInvoices);
     }
 
   /*const url = './data.json';
@@ -100,7 +106,11 @@ function App() {
             />
             <Route name="invoice" 
               path="/invoice/:id" 
-              element = {<Invoice invoices = { invoices } theme = { theme } setTheme = { setTheme }/>}
+              element = {<Invoice 
+                      invoices = { invoices } 
+                      onUpdateForm = { (value) => setInvoicesOnUpdateForm(value)}
+                      theme = { theme } 
+                      setTheme = { setTheme }/>}
             />
             {/*<Route name="form"
             path = "/form"

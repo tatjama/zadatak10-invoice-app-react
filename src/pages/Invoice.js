@@ -6,7 +6,7 @@ import InvoiceContainer from './../components/Invoices/InvoiceContainer';
 import Buttons from '../components/Headers/InvoiceHeader/Buttons';
 
 
-const Invoice = ({theme, setTheme, invoices}) => {
+const Invoice = ({theme, setTheme, invoices, onUpdateForm}) => {
    // const invoicesFromLS = JSON.parse(localStorage.getItem('invoices'))
     const location = useLocation();
     console.log(location);
@@ -20,7 +20,11 @@ const Invoice = ({theme, setTheme, invoices}) => {
     return(
             <Container  >
                 <Aside theme = {theme} setTheme={setTheme} />            
-                <InvoiceContainer invoice = { invoice } theme = {theme} />
+                <InvoiceContainer 
+                    invoice = { invoice } 
+                    invoices = { invoices }
+                    onUpdateForm = {onUpdateForm}
+                    theme = {theme} />
                 <InvoiceFooter>
                     <Buttons/>
                 </InvoiceFooter>

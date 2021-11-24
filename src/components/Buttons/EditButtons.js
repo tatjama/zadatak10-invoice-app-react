@@ -1,20 +1,19 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const FormButtons = ({status, submitForm}) => {
+const EditButtons = ({status, submitForm}) => {
 
     return(
         <ButtonsContainer>
             <FirstButtons>
-                <button>Discard</button>
-                <button >Save as Draft</button>
+                <button>Cancel</button>
             </FirstButtons>
-                <button onClick = {submitForm} >Save & Send</button>
+                <button onClick = {submitForm} >SaveChanges</button>
         </ButtonsContainer>  
     )
 }
 
-export default FormButtons;
+export default EditButtons;
 
 const ButtonsContainer = styled.div` 
     width: 100%;

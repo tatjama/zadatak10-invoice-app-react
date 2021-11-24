@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled  from 'styled-components';
 import InvoiceDetail from './InvoiceDetail';
 import InvoiceHeader from '../Headers/InvoiceHeader/InvoiceHeader';
 import GoBack from '../GoBack';
-//import data from '../../data.json';
+import ModalEdit from '../../pages/ModalEdit';
 
-const InvoiceContainer = ({invoice, theme}) => {
-    //const invoice = data.filter(item => item.id === invoiceId)[0];
+const InvoiceContainer = ({invoice, invoices, onUpdateForm, theme}) => {
+   const [isEditForm, setIsEditForm ] = useState(false);
+   const[isUpdate, setIsUpdate] = useState(false); 
+
+    const handleOnClickEdit = () => {
+        setIsEditForm(true);
+        setIsUpdate(false);
+    }
+    const onGoBack = () => {
+        setIsEditForm(false);
+        setIsUpdate(true);
+    }
     return(
-        <MainContainer>
-            <GoBack/>
-            <InvoiceHeader status = {invoice.status}/>
-            <InvoiceDetail invoice = {invoice}/>            
-        </MainContainer>
+        <Container>
+            { (isUpdate || !isEditForm) ? 
+             <MainContainer>
+             <GoBack/>
+             <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
+             <InvoiceDetail invoice = {invoice}/>              
+            </MainContainer>
+        
+            : <>  <MainContainer>
+                    <GoBack/>
+                    <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
+                    <InvoiceDetail invoice = {invoice}/>              
+                </MainContainer> 
+                    <ModalEdit invoice = {invoice} initialInvoices = { invoices } onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
+                </>
+                }            
+        </Container>
     )
 }
 
@@ -34,3 +56,14 @@ const MainContainer = styled.main`
        margin: 32px auto;
     }
 `
+const Container = styled.div` 
+    width: 100%;
+    min-height: 100vh;
+    background-color: ${props=>props.theme.background};// #f2f2f2;//141625
+    display: flex;
+    transition: all 0.5s ease;
+
+    @media screen and (max-width: 1000px) {
+        flex-direction: column;
+    }
+`;

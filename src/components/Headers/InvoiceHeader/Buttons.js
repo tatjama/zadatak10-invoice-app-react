@@ -1,11 +1,11 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const Buttons = ({status}) => {
+const Buttons = ({onClickEdit, status}) => {
 
     return(
         <ButtonsContainer>
-            <Button>Edit</Button>
+            <Button onClick = {onClickEdit}>Edit</Button>
             <Button >Delete</Button>
             <Button >Mark as Paid</Button>
         </ButtonsContainer>  

@@ -3,13 +3,13 @@ import styled  from 'styled-components';
 import HeaderStatus from './HeaderStatus';
 import Buttons from './Buttons';
 
-const InvoiceHeader = ({status}) => {
+const InvoiceHeader = ({onClickEdit, status}) => {
 
     return(
         <HeaderContainer>
             <HeaderStatus status = {status}/>
             <ButtonsResponsive>
-                <Buttons/>         
+                <Buttons onClickEdit = {onClickEdit}/>         
             </ButtonsResponsive>    
         </HeaderContainer>
     )
