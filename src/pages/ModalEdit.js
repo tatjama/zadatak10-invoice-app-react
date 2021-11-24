@@ -4,7 +4,7 @@ import bin  from '../assets/icon-delete.svg';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
 
-const ModalEdit = ({invoice, initialInvoices,onUpdateForm , handleGoBack}) => {
+const ModalEdit = ({invoice,onUpdateForm , handleGoBack}) => {
     
     class Address  {
         constructor(street = "", city = "", postCode = "", country = ""){

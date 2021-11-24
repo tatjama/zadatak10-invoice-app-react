@@ -1,7 +1,7 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const EditButtons = ({status, submitForm}) => {
+const EditButtons = ({submitForm}) => {
 
     return(
         <ButtonsContainer>

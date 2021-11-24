@@ -56,11 +56,7 @@ const FormStyling = styled.form`
         box-shadow:${props => props.theme.shadowField};
         border-radius: 8px;
         background : ${props => props.theme.backgroundField};
-        /*display: none;*/       
     }
-    /*select:hover{
-        display: block;
-    }*/
     @media screen and (max-width:600px){
         margin-right: 12px;
         span:first-child{

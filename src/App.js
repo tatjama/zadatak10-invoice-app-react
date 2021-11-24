@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes , Route , useNavigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
 import {   ThemeProvider } from 'styled-components';
 import Home from './pages/Home';
 import Invoice from './pages/Invoice';
-//import Modal from './pages/Modal';
 import data from './data.json';
 
 const lightTheme ={
@@ -28,7 +27,7 @@ const lightTheme ={
   
 }
 const darkTheme ={
-  white: "#FFFFFF",//#141625
+  white: "#FFFFFF",
   background: "#141625",
   backgroundField: "#252945",
   backgroundAddInvoice: "#141625",
@@ -57,8 +56,6 @@ function App() {
                           JSON.parse(localStorage.getItem("invoices")): data;
   const [invoices, setInvoices ] = useState(initialInvoices());
   const [theme, setTheme] = useState("light");
-  //const navigate = useNavigate();
-  console.log(themes[theme])
 
     
     useEffect(() =>{
@@ -66,7 +63,6 @@ function App() {
     },[invoices])
 
     const setInvoicesOnSubmitForm = (value) => {
-      console.log(value)
       let tempInvoices = [...invoices];
           tempInvoices.push(value);
           setInvoices(tempInvoices);
@@ -91,7 +87,6 @@ function App() {
     fetchInvoices();
   }, [])*/
 
-  console.log(invoices)
   return (
       <ThemeProvider theme = { themes[theme] } >     
         <Router>   
@@ -112,10 +107,7 @@ function App() {
                       theme = { theme } 
                       setTheme = { setTheme }/>}
             />
-            {/*<Route name="form"
-            path = "/form"
-            element = {<Modal theme = { theme } setTheme = { setTheme }/>}
-  />*/}
+           
           </Routes>   
          </Router>
       </ThemeProvider>

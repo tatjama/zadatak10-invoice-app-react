@@ -1,17 +1,12 @@
 import React, { useState }from 'react';
-//import { Link } from 'react-router-dom';
 import styled  from 'styled-components';
 import Header from './Headers/Header';
 import Empty from './Empty';
-import InvoiceListItem from './Invoices/InvoiceListItem'; 
-//import data from '../data.json';
-//import {InvoicesContext} from '../App';
-
+import InvoiceListItem from './Invoices/InvoiceListItem';
 
 const Main = ({theme, handleAddForm, invoices}) => {
     const data = invoices;
     const [list, setList] = useState(invoices);
-    console.log(list);
 
 const onStatusSelected = (status) => {
     let filteredList = data.filter(item => item.status === status);

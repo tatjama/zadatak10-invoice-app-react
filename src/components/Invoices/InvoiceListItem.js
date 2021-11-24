@@ -5,7 +5,6 @@ import arrowRight from '../../assets/icon-arrow-right.svg';
 import Status from './Status'; 
 
 const InvoiceListItem = ({item}) => {
-    console.log(item)
     return(
         <Link to = {`/invoice/${item.id}`}  >
             <ListItem>            

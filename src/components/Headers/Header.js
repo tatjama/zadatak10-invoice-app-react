@@ -28,10 +28,10 @@ const HeaderContainer = styled.header`
     justify-content: space-between;
     align-items: center;
     h1{
-         color: ${props => props.theme.titleColor};// #0C0E16;//#FFFFFF;
+         color: ${props => props.theme.titleColor};
     }
     p{
-        color: ${props => props.theme.paragraphColor};// #888EB0;//#DFE3FA
+        color: ${props => props.theme.paragraphColor};
         @media screen and (max-width: 600px) {
             span{
                 display: none;

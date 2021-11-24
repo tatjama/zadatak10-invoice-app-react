@@ -17,7 +17,6 @@ const ImageContainer = styled.div`
     border-radius: 0px 20px 20px 0px;
     background-color: ${props => props.primary? "#7C5DFA": "transparent"};
     position: relative;
-    //cursor: ${props => !props.secondary && "pointer"} ;
 
     @media screen and (max-width: 1000px) {
         width: 80px;

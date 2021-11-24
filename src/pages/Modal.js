@@ -4,7 +4,7 @@ import bin  from '../assets/icon-delete.svg';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
 
-const Modal = ({invoice, initialInvoices,onSubmitForm , handleGoBack}) => {
+const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     class Address  {
         constructor(street = "", city = "", postCode = "", country = ""){
             this.street = street;

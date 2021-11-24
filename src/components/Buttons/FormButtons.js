@@ -1,7 +1,7 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const FormButtons = ({status, submitForm}) => {
+const FormButtons = ({ submitForm}) => {
 
     return(
         <ButtonsContainer>

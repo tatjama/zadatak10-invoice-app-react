@@ -2,7 +2,7 @@ import React from 'react';
 import styled  from 'styled-components';
 
 const InvoiceDetail = ({invoice}) => {
-    console.log(invoice)
+    
     return(
         <InvoiceDetailContainer>
             <Section>

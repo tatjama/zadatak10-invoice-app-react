@@ -7,13 +7,8 @@ import Buttons from '../components/Headers/InvoiceHeader/Buttons';
 
 
 const Invoice = ({theme, setTheme, invoices, onUpdateForm}) => {
-   // const invoicesFromLS = JSON.parse(localStorage.getItem('invoices'))
     const location = useLocation();
-    console.log(location);
-    console.log(location.pathname);
-    console.log(invoices);
     const invoiceId = location.pathname.split('/')[2];
-    console.log(invoiceId);
     const invoice = invoices.filter(item => item.id === invoiceId)[0];
         
 

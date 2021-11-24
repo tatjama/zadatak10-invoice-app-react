@@ -31,7 +31,7 @@ const InvoiceContainer = ({invoice, invoices, onUpdateForm, theme}) => {
                     <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
                     <InvoiceDetail invoice = {invoice}/>              
                 </MainContainer> 
-                    <ModalEdit invoice = {invoice} initialInvoices = { invoices } onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
+                    <ModalEdit invoice = {invoice}  onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
                 </>
                 }            
         </Container>

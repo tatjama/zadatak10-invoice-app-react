@@ -25,20 +25,10 @@ const Home = ({theme, setTheme, invoices, onSubmitForm}) => {
                 { (isUpdate || !isAddForm) ? <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/> 
                 : <> 
                     <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
-                    <Modal invoice = "" initialInvoices = {invoices} onSubmitForm = { onSubmitForm } handleGoBack = { onGoBack }/>
+                    <Modal invoice = ""  onSubmitForm = { onSubmitForm } handleGoBack = { onGoBack }/>
                 </>
                 }               
         </Container>
-            /*<Container  >
-                <Aside theme = {theme} setTheme={setTheme} />             
-                { isUpdate ? <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/> 
-                : isAddForm ?<> <Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
-                                <Modal initialInvoices = {invoices} onSubmitForm = { onSubmitForm } handleGoBack = { onGoBack }/>
-                            </>
-                            :<Main invoices = {invoices} theme = {theme}  handleAddForm = {onAddForm}/>
-                }               
-                
-            </Container>*/
     )
 }
 
@@ -48,7 +38,7 @@ export default Home;
 const Container = styled.div` 
     width: 100%;
     min-height: 100vh;
-    background-color: ${props=>props.theme.background};// #f2f2f2;//141625
+    background-color: ${props=>props.theme.background};
     display: flex;
     transition: all 0.5s ease;
 
