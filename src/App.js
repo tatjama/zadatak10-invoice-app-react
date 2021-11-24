@@ -121,6 +121,7 @@ function App() {
                       onUpdateForm = { (updatedInvoice) => setInvoicesOnUpdateForm(updatedInvoice)}
                       onClickDelete = { (invoiceId) => setInvoicesOnDeleteInvoice(invoiceId)}
                       onClickPaid = {(invoiceId) => setInvoicesOnUpdateStatus(invoiceId)}
+                      deleteInvoice = { (invoiceId) => setInvoicesOnDeleteInvoice(invoiceId)}
                       theme = { theme } 
                       setTheme = { setTheme }/>}
             />

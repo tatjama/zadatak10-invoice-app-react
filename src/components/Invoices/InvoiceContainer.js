@@ -7,7 +7,7 @@ import ModalEdit from '../../pages/ModalEdit';
 import ModalDelete from '../../pages/ModalDelete';
 import { useNavigate } from 'react-router-dom';
 
-const InvoiceContainer = ({invoice, invoices, onClickDelete, onClickPaid, onUpdateForm, theme}) => {
+const InvoiceContainer = ({invoice, invoices, deleteInvoice, onClickDelete, onClickPaid, onUpdateForm, theme}) => {
    const [isEditForm, setIsEditForm ] = useState(false);
    const [isUpdate, setIsUpdate] = useState(false); 
    const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -38,7 +38,7 @@ const InvoiceContainer = ({invoice, invoices, onClickDelete, onClickPaid, onUpda
                     onClickPaid = {onClickPaid} status = {invoice.status}/>  
                     <InvoiceDetail invoice = {invoice}/>              
                </MainContainer>
-                <ModalDelete invoiceId = {deleteId}/>
+                <ModalDelete invoiceId = {deleteId} onCancelDelete = {() => setIsDeleteModal(false)} deleteInvoice = {deleteInvoice}/>
                 </>:
                 <MainContainer>
                     <GoBack/>
