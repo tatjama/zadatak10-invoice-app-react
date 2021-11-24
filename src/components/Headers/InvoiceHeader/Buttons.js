@@ -1,13 +1,13 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const Buttons = ({onClickEdit, status}) => {
+const Buttons = ({invoice, onClickEdit, onClickDelete, onClickPaid, status}) => {
 
     return(
         <ButtonsContainer>
             <Button onClick = {onClickEdit}>Edit</Button>
-            <Button >Delete</Button>
-            <Button >Mark as Paid</Button>
+            <Button onClick = {() => onClickDelete(invoice.id)} >Delete</Button>
+            <Button onClick = {() => onClickPaid(invoice.id)} >Mark as Paid</Button>
         </ButtonsContainer>  
     )
 }

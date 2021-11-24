@@ -4,10 +4,15 @@ import InvoiceDetail from './InvoiceDetail';
 import InvoiceHeader from '../Headers/InvoiceHeader/InvoiceHeader';
 import GoBack from '../GoBack';
 import ModalEdit from '../../pages/ModalEdit';
+import ModalDelete from '../../pages/ModalDelete';
+import { useNavigate } from 'react-router-dom';
 
-const InvoiceContainer = ({invoice, invoices, onUpdateForm, theme}) => {
+const InvoiceContainer = ({invoice, invoices, onClickDelete, onClickPaid, onUpdateForm, theme}) => {
    const [isEditForm, setIsEditForm ] = useState(false);
-   const[isUpdate, setIsUpdate] = useState(false); 
+   const [isUpdate, setIsUpdate] = useState(false); 
+   const [isDeleteModal, setIsDeleteModal] = useState(false);
+   const [ deleteId, setDeleteId] = useState('');
+   const navigate = useNavigate();
 
     const handleOnClickEdit = () => {
         setIsEditForm(true);
@@ -17,23 +22,42 @@ const InvoiceContainer = ({invoice, invoices, onUpdateForm, theme}) => {
         setIsEditForm(false);
         setIsUpdate(true);
     }
+    const onClickDeleteOpenModal = (invoiceId) => {
+        setIsDeleteModal(true)
+        setDeleteId(invoiceId);
+    }
     return(
         <Container>
-            { (isUpdate || !isEditForm) ? 
-             <MainContainer>
-             <GoBack/>
-             <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
-             <InvoiceDetail invoice = {invoice}/>              
-            </MainContainer>
-        
-            : <>  <MainContainer>
-                    <GoBack/>
-                    <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
+            {//!invoice?  navigate('/'): 
+            (isUpdate || !isEditForm) ? 
+            isDeleteModal? <>
+                <MainContainer>
+                     <GoBack/>
+                    <InvoiceHeader invoice = { invoice} onClickEdit = {handleOnClickEdit}  
+                    onClickDelete = {(invoiceId) => onClickDeleteOpenModal(invoiceId)} 
+                    onClickPaid = {onClickPaid} status = {invoice.status}/>  
                     <InvoiceDetail invoice = {invoice}/>              
-                </MainContainer> 
-                    <ModalEdit invoice = {invoice}  onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
-                </>
-                }            
+               </MainContainer>
+                <ModalDelete invoiceId = {deleteId}/>
+                </>:
+                <MainContainer>
+                    <GoBack/>
+                    <InvoiceHeader invoice = { invoice} onClickEdit = {handleOnClickEdit}  
+                    onClickDelete = {(invoiceId) => onClickDeleteOpenModal(invoiceId)} 
+                    onClickPaid = {onClickPaid} status = {invoice.status}/>  
+                    <InvoiceDetail invoice = {invoice}/>              
+               </MainContainer>
+                
+               : <>  <MainContainer>
+                       <GoBack/>
+                       <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
+                       <InvoiceDetail invoice = {invoice}/>              
+                   </MainContainer> 
+                       <ModalEdit invoice = {invoice}  onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
+                   </>
+                   }
+            
+                        
         </Container>
     )
 }

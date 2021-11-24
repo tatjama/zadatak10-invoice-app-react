@@ -6,7 +6,7 @@ import InvoiceContainer from './../components/Invoices/InvoiceContainer';
 import Buttons from '../components/Headers/InvoiceHeader/Buttons';
 
 
-const Invoice = ({theme, setTheme, invoices, onUpdateForm}) => {
+const Invoice = ({theme, setTheme, invoices, onUpdateForm, onClickDelete, onClickPaid,}) => {
     const location = useLocation();
     const invoiceId = location.pathname.split('/')[2];
     const invoice = invoices.filter(item => item.id === invoiceId)[0];
@@ -18,6 +18,8 @@ const Invoice = ({theme, setTheme, invoices, onUpdateForm}) => {
                 <InvoiceContainer 
                     invoice = { invoice } 
                     invoices = { invoices }
+                    onClickDelete = { onClickDelete}
+                    onClickPaid = { onClickPaid}
                     onUpdateForm = {onUpdateForm}
                     theme = {theme} />
                 <InvoiceFooter>
