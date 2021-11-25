@@ -25,7 +25,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     }
 
     class Invoice{
-        constructor(createdAt = new Date(),  description = '', paymentTerms = "1", clientName = "", 
+        constructor(createdAt = new Date(), status, description = '', paymentTerms = "1", clientName = "", 
             clientEmail = "", senderStreet = "", senderCity ="", senderPostCode = "", senderCountry = "" 
             , clientStreet = "", clientCity = "", clientPostCode = "", clientCountry = "", items = []){
             
@@ -35,7 +35,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
             this.description = description;            
             this.clientName = clientName;
             this.clientEmail = clientEmail;
-            this.status = this.defineStatus();
+            this.status = status;
             this.senderAddress  = new Address(senderStreet, senderCity, senderPostCode, senderCountry);
             this.clientAddress = new Address(clientStreet, clientCity, clientPostCode, clientCountry);
             this.items = items;
@@ -53,8 +53,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
             
         } 
 
-        defineStatus = (status) => status
-
+        
         addItem = (item) => {
             this.items.push(item)
         }
@@ -88,7 +87,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const itemPrice = useRef('');
    
     const [isAddItemOpen, setIsAddItemOpen] = useState(true);
-    const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date(), "", "1", "", "", "",
+    const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
 
     const addNewItem = () => {        
@@ -111,13 +110,8 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 return firstLetter + secondLetter + numbers;
             } 
 
-            const onSaveAsDraft = () => {
-
-            }
-
-            const onFormSubmit = (event) => {
-                event.preventDefault();
-            const createdAtValue = createdAt.current.value;
+            const createInvoice = () => {
+                const createdAtValue = createdAt.current.value;
             const descriptionValue = description.current.value;
             const paymentTermsValue = paymentTerms.current.value;
             const clientNameValue = clientName.current.value;
@@ -134,7 +128,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
             const itemQuantityValue = itemQuantity.current.value;
             const itemPriceValue = itemPrice.current.value;
         
-                const tempInvoice = new Invoice(createdAtValue,  descriptionValue, paymentTermsValue, 
+                const tempInvoice = new Invoice(createdAtValue, invoiceAdd.status , descriptionValue, paymentTermsValue, 
                     clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
                     senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
                     clientCountryValue, invoiceAdd.items );
@@ -142,8 +136,24 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 tempInvoice.addItem(tempItem);
                 tempInvoice.calculateTotal();
                 tempInvoice.id = (invoice.id)? invoice.id: createId();
-                console.log(tempInvoice);
-                onSubmitForm(tempInvoice);
+                return tempInvoice;
+            }
+
+            const onSaveAsDraft = (event) => {
+                event.preventDefault();
+                const addedInvoice = createInvoice();
+                addedInvoice.status = 'draft';
+                onSubmitForm(addedInvoice);
+                handleGoBack();
+            }
+
+            const onFormSubmit = (event) => {
+                event.preventDefault();
+                const addedInvoice = createInvoice();
+                console.log(addedInvoice);
+                //form validation === true
+                addedInvoice.status = "pending";
+                onSubmitForm(addedInvoice);
                 handleGoBack();
             }        
     
@@ -201,7 +211,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 <fieldset>
                     <FlexWrapper>
                         <label htmlFor="invoiceDate">Invoice Date
-                            <input type="date" name="invoiceDate" defaultValue = {invoiceAdd.createdAt} ref = {createdAt}/>
+                            <input type="date" name="invoiceDate" defaultValue = {new Date().toISOString().substr(0,10)} ref = {createdAt}/>
                         </label>
                         <label htmlFor="paymentTerms" >Payment Terms<br/>
                             <select id="paymentTerms" name="paymentTerms" defaultValue = {invoiceAdd.paymentTerms} ref = {paymentTerms}>

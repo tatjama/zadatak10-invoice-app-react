@@ -26,9 +26,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     }
 
     class Invoice{
-        constructor(createdAt = new Date(),  description = '', paymentTerms = "1", clientName = "", 
-            clientEmail = "", senderStreet = "", senderCity ="", senderPostCode = "", senderCountry = "" 
-            , clientStreet = "", clientCity = "", clientPostCode = "", clientCountry = "", items = []/*, itemName, itemQuantity, itemPrice*/){
+        constructor(createdAt = new Date(), status,  description = '', paymentTerms = "1", 
+                    clientName = "", clientEmail = "", senderStreet = "", senderCity ="", 
+                    senderPostCode = "", senderCountry = "", clientStreet = "", clientCity = "", 
+                    clientPostCode = "", clientCountry = "", items = []){
             
             this.createdAt = createdAt;
             this.paymentTerms = paymentTerms;
@@ -36,7 +37,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             this.description = description;            
             this.clientName = clientName;
             this.clientEmail = clientEmail;
-            this.status = this.defineStatus();
+            this.status = status;
             this.senderAddress  = new Address(senderStreet, senderCity, senderPostCode, senderCountry);
             this.clientAddress = new Address(clientStreet, clientCity, clientPostCode, clientCountry);
             this.items = items;
@@ -50,12 +51,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 return new Date(invoiceDate + days);
             }else{
                 return new Date()
-            }
-            
+            }            
         } 
 
-        defineStatus = () => "pending"
-
+        
         addItem = (item) => {
             this.items.push(item)
         }
@@ -67,6 +66,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
              }
              this.total =  sum;
          }
+         
     }
     
     const createdAt = useRef('');
@@ -89,12 +89,12 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     const initialInvoice = JSON.parse(JSON.stringify(invoice))
     const [isAddItemOpen, setIsAddItemOpen] = useState(true);
     const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(initialInvoice.createdAt, 
-        initialInvoice.description, initialInvoice.paymentTerms, initialInvoice.clientName, 
-        initialInvoice.clientEmail, initialInvoice.senderAddress.street, initialInvoice.senderAddress.city, 
-         initialInvoice.senderAddress.postCode, initialInvoice.senderAddress.country, 
-         initialInvoice.clientAddress.street, initialInvoice.clientAddress.city, 
-         initialInvoice.clientAddress.postCode, initialInvoice.clientAddress.country, initialInvoice.items));
-
+        initialInvoice.status, initialInvoice.description, initialInvoice.paymentTerms, 
+        initialInvoice.clientName, initialInvoice.clientEmail, initialInvoice.senderAddress.street, 
+        initialInvoice.senderAddress.city, initialInvoice.senderAddress.postCode, 
+        initialInvoice.senderAddress.country, initialInvoice.clientAddress.street, 
+        initialInvoice.clientAddress.city, initialInvoice.clientAddress.postCode, 
+        initialInvoice.clientAddress.country, initialInvoice.items));
 
     const addNewItem = () => {        
         setIsAddItemOpen(true);
@@ -115,35 +115,43 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             return firstLetter + secondLetter + numbers;
         } 
 
+        const createInvoice = () => {
+            const createdAtValue = createdAt.current.value;
+            const descriptionValue = description.current.value;
+            const paymentTermsValue = paymentTerms.current.value;
+            const clientNameValue = clientName.current.value;
+            const clientEmailValue = clientEmail.current.value;
+            const senderStreetValue = senderStreet.current.value;
+            const senderCityValue = senderCity.current.value;
+            const senderCountryValue = senderCountry.current.value;
+            const senderPostCodeValue = senderPostCode.current.value;
+            const clientStreetValue = clientStreet.current.value;
+            const clientCityValue = clientCity.current.value;
+            const clientCountryValue = clientCountry.current.value;
+            const clientPostCodeValue = clientPostCode.current.value;
+            const itemNameValue = itemName.current.value;
+            const itemQuantityValue = itemQuantity.current.value;
+            const itemPriceValue = itemPrice.current.value;    
+
+            const tempInvoice = new Invoice(createdAtValue, invoiceEdit.status, descriptionValue, 
+                paymentTermsValue, clientNameValue, clientEmailValue, senderStreetValue, 
+                senderCityValue, senderPostCodeValue, senderCountryValue, clientStreetValue, 
+                clientCityValue, clientPostCodeValue, clientCountryValue, invoiceEdit.items );
+            const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
+
+            tempInvoice.addItem(tempItem);
+            tempInvoice.calculateTotal();
+            tempInvoice.id = (invoice.id)? invoice.id: createId();
+            return tempInvoice;
+        }
+
+
     const onFormSubmit = (event) => {
         event.preventDefault();
-    const createdAtValue = createdAt.current.value;
-    const descriptionValue = description.current.value;
-    const paymentTermsValue = paymentTerms.current.value;
-    const clientNameValue = clientName.current.value;
-    const clientEmailValue = clientEmail.current.value;
-    const senderStreetValue = senderStreet.current.value;
-    const senderCityValue = senderCity.current.value;
-    const senderCountryValue = senderCountry.current.value;
-    const senderPostCodeValue = senderPostCode.current.value;
-    const clientStreetValue = clientStreet.current.value;
-    const clientCityValue = clientCity.current.value;
-    const clientCountryValue = clientCountry.current.value;
-    const clientPostCodeValue = clientPostCode.current.value;
-    const itemNameValue = itemName.current.value;
-    const itemQuantityValue = itemQuantity.current.value;
-    const itemPriceValue = itemPrice.current.value;
-
-        const tempInvoice = new Invoice(createdAtValue,  descriptionValue, paymentTermsValue, 
-                            clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, 
-                            senderPostCodeValue, senderCountryValue, clientStreetValue, 
-                            clientCityValue, clientPostCodeValue, clientCountryValue, 
-                            invoiceEdit.items );
-        const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-        tempInvoice.addItem(tempItem);
-        tempInvoice.calculateTotal();
-        tempInvoice.id = (invoice.id)? invoice.id: createId();
-        onUpdateForm(tempInvoice);
+        const addedInvoice = createInvoice();
+        console.log(addedInvoice);
+        //form validation === true
+        onUpdateForm(addedInvoice);
         handleGoBack();
     }
 
@@ -235,7 +243,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                     invoiceEdit.items.map(item =>{
                         return<FlexWrapper key = {item.name}> 
                             <ItemField >
-                         <input type="text"  defaultValue = {item.name}  />
+                         <input type="text"  defaultValue = {item.name}  ref = {item.name}/>
                         </ItemField>
                         <ItemField >
                         <input type="number" defaultValue = {item.quantity}/>
