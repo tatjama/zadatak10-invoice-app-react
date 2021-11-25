@@ -4,7 +4,7 @@ import bin  from '../assets/icon-delete.svg';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
 
-const ModalEdit = ({invoice,onUpdateForm , handleGoBack}) => {
+const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     
     class Address  {
         constructor(street = "", city = "", postCode = "", country = ""){
@@ -86,12 +86,14 @@ const ModalEdit = ({invoice,onUpdateForm , handleGoBack}) => {
     const itemQuantity = useRef('');
     const itemPrice = useRef('');
     
+    const initialInvoice = JSON.parse(JSON.stringify(invoice))
     const [isAddItemOpen, setIsAddItemOpen] = useState(true);
-    const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(invoice.createdAt, invoice.description, 
-        invoice.paymentTerms, invoice.clientName, invoice.clientEmail, invoice.senderAddress.street,
-         invoice.senderAddress.city, invoice.senderAddress.postCode, invoice.senderAddress.country, 
-         invoice.clientAddress.street, invoice.clientAddress.city, invoice.clientAddress.postCode, 
-         invoice.clientAddress.country, invoice.items));
+    const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(initialInvoice.createdAt, 
+        initialInvoice.description, initialInvoice.paymentTerms, initialInvoice.clientName, 
+        initialInvoice.clientEmail, initialInvoice.senderAddress.street, initialInvoice.senderAddress.city, 
+         initialInvoice.senderAddress.postCode, initialInvoice.senderAddress.country, 
+         initialInvoice.clientAddress.street, initialInvoice.clientAddress.city, 
+         initialInvoice.clientAddress.postCode, initialInvoice.clientAddress.country, initialInvoice.items));
 
 
     const addNewItem = () => {        
@@ -148,6 +150,12 @@ const ModalEdit = ({invoice,onUpdateForm , handleGoBack}) => {
     const handleSubmit = (event) => {
         event.preventDefault();
     }
+
+    const onFormCancel = () => {
+        setInvoiceEdit(initialInvoice);
+        handleGoBack();
+    }
+
     return(
         <ModalContainer>     
             <FormContainer onSubmit = {handleSubmit}>
@@ -262,7 +270,7 @@ const ModalEdit = ({invoice,onUpdateForm , handleGoBack}) => {
                 </fieldset>
                 <GradientDiv>
                         <div></div>
-                        <EditButtons submitForm = { onFormSubmit }/>
+                        <EditButtons cancelForm = {onFormCancel} submitForm = { onFormSubmit }/>
                     </GradientDiv>
             </FormContainer>
         </ModalContainer>

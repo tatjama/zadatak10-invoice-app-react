@@ -27,7 +27,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     class Invoice{
         constructor(createdAt = new Date(),  description = '', paymentTerms = "1", clientName = "", 
             clientEmail = "", senderStreet = "", senderCity ="", senderPostCode = "", senderCountry = "" 
-            , clientStreet = "", clientCity = "", clientPostCode = "", clientCountry = "", items = []/*, itemName, itemQuantity, itemPrice*/){
+            , clientStreet = "", clientCity = "", clientPostCode = "", clientCountry = "", items = []){
             
             this.createdAt = createdAt;
             this.paymentTerms = paymentTerms;
@@ -53,7 +53,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
             
         } 
 
-        defineStatus = () => "pending"
+        defineStatus = (status) => status
 
         addItem = (item) => {
             this.items.push(item)
@@ -110,6 +110,11 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
                 return firstLetter + secondLetter + numbers;
             } 
+
+            const onSaveAsDraft = () => {
+
+            }
+
             const onFormSubmit = (event) => {
                 event.preventDefault();
             const createdAtValue = createdAt.current.value;
@@ -259,7 +264,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 </fieldset>
                 <GradientDiv>
                         <div></div>
-                        <FormButtons submitForm = { onFormSubmit }/>
+                        <FormButtons saveAsDraft = { onSaveAsDraft } discardForm = {handleGoBack} submitForm = { onFormSubmit }/>
                     </GradientDiv>
             </FormContainer>
         </ModalContainer>

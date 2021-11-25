@@ -1,12 +1,12 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const EditButtons = ({submitForm}) => {
+const EditButtons = ({cancelForm,submitForm}) => {
 
     return(
         <ButtonsContainer>
             <FirstButtons>
-                <button>Cancel</button>
+                <button onClick = {cancelForm}>Cancel</button>
             </FirstButtons>
                 <button onClick = {submitForm} >SaveChanges</button>
         </ButtonsContainer>  

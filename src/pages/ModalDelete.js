@@ -25,6 +25,8 @@ const ModalContainer = styled.section`
     display: flex;
     background: rgba(0, 0, 0, 0.5);
     overflow: scroll;
+    box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+    
     @media screen and (max-width: 1000px) {
         top: 80px;
         left: 0;

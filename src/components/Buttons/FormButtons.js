@@ -1,13 +1,13 @@
 import React from 'react';
 import styled  from 'styled-components';
 
-const FormButtons = ({ submitForm}) => {
+const FormButtons = ({ discardForm, saveAsDraft, submitForm}) => {
 
     return(
         <ButtonsContainer>
             <FirstButtons>
-                <button>Discard</button>
-                <button >Save as Draft</button>
+                <button onClick = {discardForm}>Discard</button>
+                <button onClick = { saveAsDraft } >Save as Draft</button>
             </FirstButtons>
                 <button onClick = {submitForm} >Save & Send</button>
         </ButtonsContainer>  
