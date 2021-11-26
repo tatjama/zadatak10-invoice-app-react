@@ -52,8 +52,7 @@ const themes = {
 }
 
 function App() {  
-  const initialInvoices = () =>localStorage.getItem("invoice")?
-                          JSON.parse(localStorage.getItem("invoices")): data;
+  const initialInvoices = () => JSON.parse(localStorage.getItem("invoices")) || data
   const [invoices, setInvoices ] = useState(initialInvoices());
   const [theme, setTheme] = useState("light");
 

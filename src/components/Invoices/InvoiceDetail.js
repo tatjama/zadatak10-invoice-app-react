@@ -45,8 +45,8 @@ const InvoiceDetail = ({invoice}) => {
                     <p>Price</p>
                     <p>Total</p>
                 </SectionItemHeader>
-                {invoice.items.map(item =>{
-                    return <SectionItem key = {item.name}>
+                {invoice.items.map((item, idx) =>{
+                    return <SectionItem key = {idx}>
                                 <p>{item.name}</p>
                                 <p>{item.quantity}</p>
                                 <p>&#163; {(item.price*1).toLocaleString("en-GB", { style: "currency", currency: "GBP"}).slice(1)}</p>

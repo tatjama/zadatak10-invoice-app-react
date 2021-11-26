@@ -96,7 +96,38 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
         initialInvoice.clientAddress.city, initialInvoice.clientAddress.postCode, 
         initialInvoice.clientAddress.country, initialInvoice.items));
 
-    const addNewItem = () => {        
+        const [ itemFields, setItemFields ] = 
+        useState( invoiceEdit.items.map( (item) =>new Item(item.name, item.quantity, item.price)))
+        /*const handleOnChange = (index, event) => {
+            console.log(index, event.target.name)
+            const values = [...itemFields];
+            console.log(values)
+            values[index][event.target.name] = event.target.value;
+            console.log(values)
+            values.forEach(value => value.total = value.price*value.quantity)
+            setItemFields(values)
+        }*/
+        const handleOnChange = (index, event) => {
+           // console.log(index, event.target.name)
+            const values = [...itemFields];      
+            values[index][event.target.name] = event.target.value;
+            values.forEach(value => value.total = value.price*value.quantity)
+            setItemFields(values)
+        }
+
+        const addNewItemField = (event) => {
+            event.preventDefault();
+            setItemFields([...itemFields, new Item("", 0, 0)]);
+        }
+
+        const removeItemField = (id) => {
+            console.log(id)
+            const values = [...itemFields];
+            values.splice(id, 1);
+            setItemFields(values);
+        }
+
+    /*const addNewItem = () => {        
         setIsAddItemOpen(true);
         const itemNameValue = itemName.current.value;
         const itemQuantityValue = itemQuantity.current.value;
@@ -105,7 +136,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
         let tempInvoice = {...invoiceEdit};
         tempInvoice.items.push(tempItem);
         setInvoiceEdit(tempInvoice);
-        }
+        }*/
 
         const  createId = () =>  {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -137,9 +168,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 paymentTermsValue, clientNameValue, clientEmailValue, senderStreetValue, 
                 senderCityValue, senderPostCodeValue, senderCountryValue, clientStreetValue, 
                 clientCityValue, clientPostCodeValue, clientCountryValue, invoiceEdit.items );
-            const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
+        //    const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
 
-            tempInvoice.addItem(tempItem);
+           // tempInvoice.addItem(tempItem);
+           tempInvoice.items = itemFields;
             tempInvoice.calculateTotal();
             tempInvoice.id = (invoice.id)? invoice.id: createId();
             return tempInvoice;
@@ -164,9 +196,11 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
         handleGoBack();
     }
 
+  
+
     return(
         <ModalContainer>     
-            <FormContainer onSubmit = {handleSubmit}>
+            <FormContainer onSubmit = {onFormSubmit}>
                 <LinkContainer onClick = { handleGoBack }>
                     <GoBack/>    
                 </LinkContainer>   
@@ -240,25 +274,35 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                         <ItemField></ItemField>
                     </FlexWrapper>
                     {
-                    invoiceEdit.items.map(item =>{
-                        return<FlexWrapper key = {item.name}> 
+                    itemFields.map((item, idx) =>{
+                        return<FlexWrapper key = {idx}> 
                             <ItemField >
-                         <input type="text"  defaultValue = {item.name}  ref = {item.name}/>
+                         <input type="text" label = "Item Name" name = "name" 
+                         onFocus = {(e) => e.target.value = ""}
+                         onChange = {(event) => handleOnChange(idx, event)}
+                          defaultValue = {item.name} />
                         </ItemField>
                         <ItemField >
-                        <input type="number" defaultValue = {item.quantity}/>
+                        <input type="number" label = "Qty." name = "quantity"
+                        onFocus = {(e) => e.target.value = ""} 
+                        onChange = {(event) => handleOnChange(idx, event)} 
+                        defaultValue = {item.quantity}/>
                         </ItemField>
                         <ItemField >
-                          <input type="number" defaultValue = {item.price} />
+                          <input type="number" label = "Price" name = "price" 
+                          onFocus = {(e) => e.target.value = ""}
+                          onChange = {(event) => handleOnChange(idx, event)} 
+                          defaultValue = {item.price} />
                         </ItemField>
                         <ItemField >
-                           <input type="number" defaultValue = {item.total}/>
+                           <input type="number" readOnly label = "Total" name = "total" 
+                           defaultValue = {item.total} />
                         </ItemField>
-                         <img src = { bin } alt = "bin"/>    
+                         <img onClick = {() => removeItemField(idx)} src = { bin } alt = "bin"/>    
                         </FlexWrapper>
                     })}
                     
-                    { isAddItemOpen && <FlexWrapper>
+                    { /*isAddItemOpen && <FlexWrapper>
                         <ItemField htmlFor="itemName">
                          <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} defaultValue = "" ref = {itemName}/>
                         </ItemField>
@@ -272,9 +316,9 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                            <input type="number" name="total"/>
                         </ItemField>
                          <img src = { bin } alt = "bin"/>
-                    </FlexWrapper>}
+                    </FlexWrapper>*/}
                     
-                    <ButtonAddItem onClick = {addNewItem}> + Add New Item</ButtonAddItem>                    
+                    <ButtonAddItem onClick = {addNewItemField}> + Add New Item</ButtonAddItem>                    
                 </fieldset>
                 <GradientDiv>
                         <div></div>

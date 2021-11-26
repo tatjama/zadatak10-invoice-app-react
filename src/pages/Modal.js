@@ -90,7 +90,27 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
 
-    const addNewItem = () => {        
+    const addItemField = () => {
+        const tempInvoice = {...invoiceAdd}
+        tempInvoice.addItem(new Item("", 0, 0));
+        setInvoiceAdd(tempInvoice);
+        //const listItems =[...invoiceAdd.items, new Item("", 0, 0)];
+    }
+
+    const handleOnChange = (index, event) => {
+        const tempInvoice = { ...invoiceAdd};
+        tempInvoice.items[index][event.target.name] = event.target.value;
+        tempInvoice.items.forEach(value => value.total = value.price*value.quantity);
+        setInvoiceAdd(tempInvoice);
+    }
+
+    const removeItemField = (index) => {
+        const tempInvoice = {...invoiceAdd}
+        tempInvoice.items.splice(index, 1);
+        setInvoiceAdd(tempInvoice);
+    }
+
+   /* const addNewItem = () => {        
             setIsAddItemOpen(true);  
             const itemNameValue = itemName.current.value;
                 const itemQuantityValue = itemQuantity.current.value;
@@ -100,7 +120,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 let tempInvoice = {...invoiceAdd};
                 tempInvoice.items.push(tempItem);
                 setInvoiceAdd(tempInvoice);
-            }
+            }*/
 
             const  createId = () =>  {
                 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -132,8 +152,8 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                     clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
                     senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
                     clientCountryValue, invoiceAdd.items );
-                const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-                tempInvoice.addItem(tempItem);
+                //const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
+                //tempInvoice.addItem(tempItem);
                 tempInvoice.calculateTotal();
                 tempInvoice.id = (invoice.id)? invoice.id: createId();
                 return tempInvoice;
@@ -160,6 +180,8 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const handleSubmit = (event) => {
         event.preventDefault();
     }
+
+    console.log(invoiceAdd)
     return(
         <ModalContainer>     
             <FormContainer onSubmit = {handleSubmit}>
@@ -236,25 +258,34 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         <ItemField></ItemField>
                     </FlexWrapper>
                     {
-                    invoiceAdd.items.map(item =>{
-                        return<FlexWrapper key = {item.name}> 
+                    invoiceAdd.items.map((item, idx) =>{
+                        return<FlexWrapper key = {idx}> 
                             <ItemField >
-                         <input type="text"  defaultValue = {item.name}  />
+                         <input type="text" name = "name" 
+                         onFocus = {(e) => e.target.value = ""}
+                         onChange = {(event) => handleOnChange(idx, event)} 
+                         defaultValue = {item.name}  />
                         </ItemField>
                         <ItemField >
-                        <input type="number" defaultValue = {item.quantity}/>
+                        <input type="number" name = "quantity"
+                        onFocus = { (e) => e.target.value = ""}
+                        onChange = {(event) => handleOnChange(idx, event)} 
+                        defaultValue = {item.quantity}/>
                         </ItemField>
                         <ItemField >
-                          <input type="number" defaultValue = {item.price} />
+                          <input type="number" name = "price" 
+                          onFocus = { (e) => e.target.value = ""}
+                          onChange = {(event) => handleOnChange(idx, event)} 
+                          defaultValue = {item.price} />
                         </ItemField>
                         <ItemField >
                            <input type="number" defaultValue = {item.total}/>
                         </ItemField>
-                         <img src = { bin } alt = "bin"/>    
+                         <img onClick = { (idx) => removeItemField(idx)} src = { bin } alt = "bin"/>    
                         </FlexWrapper>
                     })}
                     
-                    { isAddItemOpen && <FlexWrapper>
+                    {/* isAddItemOpen && <FlexWrapper>
                         <ItemField htmlFor="itemName">
                          <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} ref = {itemName}/>
                         </ItemField>
@@ -268,9 +299,9 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                            <input type="number" name="total"/>
                         </ItemField>
                          <img src = { bin } alt = "bin"/>
-                    </FlexWrapper>}
+                    </FlexWrapper>*/}
                     
-                    <ButtonAddItem onClick = {addNewItem}> + Add New Item</ButtonAddItem>                    
+                    <ButtonAddItem onClick = {addItemField}> + Add New Item</ButtonAddItem>                    
                 </fieldset>
                 <GradientDiv>
                         <div></div>
