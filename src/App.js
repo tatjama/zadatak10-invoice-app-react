@@ -24,7 +24,7 @@ const lightTheme ={
   paragraphHover: "#7E88C3",
   paragraphInvoice: "#7E88C3",
   draftColor:"#373B53" ,
-  
+  errorBorder: "1px solid red"
 }
 const darkTheme ={
   white: "#FFFFFF",
@@ -45,6 +45,7 @@ const darkTheme ={
   paragraphHover: " #888EB0",
   paragraphInvoice: "#DFE3FA",
   draftColor: "#DFE3FA",
+  errorBorder: "1px solid red"
 }
 const themes = {
   light: lightTheme,

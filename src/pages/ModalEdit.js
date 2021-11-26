@@ -1,8 +1,9 @@
-import React, {useState, useRef } from 'react';
+import React, {useState, useRef, useEffect } from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
+import FormErrors from '../components/Errors/FormErrors';
 
 const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     
@@ -87,7 +88,6 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     const itemPrice = useRef('');
     
     const initialInvoice = JSON.parse(JSON.stringify(invoice))
-    const [isAddItemOpen, setIsAddItemOpen] = useState(true);
     const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(initialInvoice.createdAt, 
         initialInvoice.status, initialInvoice.description, initialInvoice.paymentTerms, 
         initialInvoice.clientName, initialInvoice.clientEmail, initialInvoice.senderAddress.street, 
@@ -98,17 +98,49 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
 
         const [ itemFields, setItemFields ] = 
         useState( invoiceEdit.items.map( (item) =>new Item(item.name, item.quantity, item.price)))
-        /*const handleOnChange = (index, event) => {
-            console.log(index, event.target.name)
-            const values = [...itemFields];
-            console.log(values)
-            values[index][event.target.name] = event.target.value;
-            console.log(values)
-            values.forEach(value => value.total = value.price*value.quantity)
-            setItemFields(values)
-        }*/
+        
+        
+    const [formErrors, setFormErrors] = useState([]);
+
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+
+    const formValidation = (formValues, fieldNames, fieldRefs) =>{
+        let fieldValidationErrors = [];
+        for(let i=0; i < 13; i++){         
+            switch(fieldNames[i]) {
+              case 'clientName':
+                //let nameValid = (formValues[i].match(/^[a-zA-ZŠšĐđŽžČčĆć]+$/) 
+                let nameValid = (formValues[i].match(/^[a-z ,.'-]+$/i) 
+                && formValues[i] !=="");
+                if(!nameValid) {
+                    fieldValidationErrors.push("Client name is not valid!");
+                    fieldRefs[i].current.parentElement.className = "error";
+                    }
+                break;
+               case 'clientEmail':
+                let emailValid = (formValues[i].match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
+                && formValues[i] !=="");
+                if(!emailValid) {
+                        fieldValidationErrors.push("Client email is invalid!");
+                        fieldRefs[i].current.parentElement.className = "error";
+                    }
+                break;
+              default:
+                  let fieldValid = (formValues[i] !== '');
+                  if(!fieldValid) {
+                      fieldValidationErrors.push(fieldNames[i] + " cannot be empty!")
+                      fieldRefs[i].current.parentElement.className = "error";
+                  }   
+                break;
+            }
+         }
+       return fieldValidationErrors;       
+    }
+         
+
         const handleOnChange = (index, event) => {
-           // console.log(index, event.target.name)
             const values = [...itemFields];      
             values[index][event.target.name] = event.target.value;
             values.forEach(value => value.total = value.price*value.quantity)
@@ -127,24 +159,9 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             setItemFields(values);
         }
 
-    /*const addNewItem = () => {        
-        setIsAddItemOpen(true);
-        const itemNameValue = itemName.current.value;
-        const itemQuantityValue = itemQuantity.current.value;
-        const itemPriceValue = itemPrice.current.value;
-        let tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-        let tempInvoice = {...invoiceEdit};
-        tempInvoice.items.push(tempItem);
-        setInvoiceEdit(tempInvoice);
-        }*/
-
-        const  createId = () =>  {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const firstLetter = chars[ Math.floor(Math.random() *25)];
-            const secondLetter = chars[ Math.floor(Math.random() *25)];
-            const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
-            return firstLetter + secondLetter + numbers;
-        } 
+        const  createId = () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[ Math.floor(Math.random() *25)] 
+            + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[ Math.floor(Math.random() *25)] 
+                + Math.floor(Math.random() * 9999).toString().padStart(4,0);          
 
         const createInvoice = () => {
             const createdAtValue = createdAt.current.value;
@@ -160,32 +177,55 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             const clientCityValue = clientCity.current.value;
             const clientCountryValue = clientCountry.current.value;
             const clientPostCodeValue = clientPostCode.current.value;
-            const itemNameValue = itemName.current.value;
-            const itemQuantityValue = itemQuantity.current.value;
-            const itemPriceValue = itemPrice.current.value;    
 
+            const formFieldsValues = [createdAtValue, descriptionValue ,paymentTermsValue, 
+                clientNameValue, clientEmailValue, senderStreetValue ,senderCityValue ,
+                 senderCountryValue, senderPostCodeValue ,  clientStreetValue, clientCityValue, 
+                 clientCountryValue, clientPostCodeValue ];
+           const formFieldsNames = ["invoiceDate", "projectDescription" ,"paymentTerms", 
+               "clientName", "clientEmail", "senderStreet" ,"senderCity" ,
+                "senderCountry", "senderPostCode" ,  "clientStreet", "clientCity", 
+                "clientCountry", "clientPostCode"];    
+           const formFieldsRef = [createdAt, description ,paymentTerms, 
+               clientName, clientEmail, senderStreet ,senderCity ,
+                senderCountry, senderPostCode ,  clientStreet, clientCity, 
+                clientCountry, clientPostCode]                      
+           
             const tempInvoice = new Invoice(createdAtValue, invoiceEdit.status, descriptionValue, 
                 paymentTermsValue, clientNameValue, clientEmailValue, senderStreetValue, 
                 senderCityValue, senderPostCodeValue, senderCountryValue, clientStreetValue, 
                 clientCityValue, clientPostCodeValue, clientCountryValue, invoiceEdit.items );
-        //    const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-
-           // tempInvoice.addItem(tempItem);
-           tempInvoice.items = itemFields;
             tempInvoice.calculateTotal();
             tempInvoice.id = (invoice.id)? invoice.id: createId();
-            return tempInvoice;
+            const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
+            return [tempInvoice, fErrors];
         }
 
 
     const onFormSubmit = (event) => {
         event.preventDefault();
-        const addedInvoice = createInvoice();
-        console.log(addedInvoice);
-        //form validation === true
-        onUpdateForm(addedInvoice);
-        handleGoBack();
+        const [addedInvoice, errorsList] = createInvoice();
+        setInvoiceEdit(addedInvoice)
+        setFormErrors(errorsList);
+        setIsSubmitted(true);        
     }
+
+    useEffect(() => {
+        if (isSubmitted) {
+          if (formErrors.length === 0) {
+            setIsFormValid(true);
+            onUpdateForm(invoiceEdit);
+            handleGoBack();
+          } else {
+            setIsFormValid(false);
+
+          }
+          setIsSubmitted(false);
+        }
+      }, [isSubmitted, formErrors, handleGoBack, invoiceEdit, onUpdateForm]);
+    
+      
+         
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -196,7 +236,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
         handleGoBack();
     }
 
-  
+    const handleOnFocus = (e) => {
+        e.target.parentElement.className = "";
+    }
+
 
     return(
         <ModalContainer>     
@@ -209,50 +252,94 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 <fieldset>
                     <legend>Bill From</legend>
                     <label htmlFor="senderStreet">Street Address
-                        <input type="text" defaultValue = {invoiceEdit.senderAddress.street} name="senderStreet"  ref={senderStreet}/>
-                    </label>
-                    <FlexWrapper>
+                    <span>can't be empty</span> 
+                        <input type="text" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceEdit.senderAddress.street} 
+                        name="senderStreet"  ref={senderStreet}/>
+                    </label>                    
+                    <FlexWrapper>                        
                         <label htmlFor="senderCity">City
-                            <input type="text" defaultValue = {invoiceEdit.senderAddress.city} name="senderCity" ref={senderCity}/>
+                        <span>can't be empty</span> 
+                            <input type="text"
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceEdit.senderAddress.city} 
+                            name="senderCity" ref={senderCity}/>
                         </label>
                         <label htmlFor="senderPostCode">Post Code
-                            <input type="text" name="senderPostCode" defaultValue = {invoiceEdit.senderAddress.postCode} ref = {senderPostCode}/>
+                        <span>can't be empty</span>
+                            <input type="text" name="senderPostCode" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceEdit.senderAddress.postCode} 
+                            ref = {senderPostCode}/>
                         </label>
                         <label htmlFor="senderCountry">Country
-                            <input type="text" name="senderCountry" defaultValue = {invoiceEdit.senderAddress.country} ref = {senderCountry}/> 
+                        <span>can't be empty</span>
+                            <input type="text" name="senderCountry"
+                            onFocus = {(e) => handleOnFocus(e)} 
+                            defaultValue = {invoiceEdit.senderAddress.country} 
+                            ref = {senderCountry}/> 
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <legend>Bill To</legend>
                     <label htmlFor="clientName">Client's name
-                        <input type="text" name="clientName" defaultValue = {invoiceEdit.clientName} ref = {clientName}/>
+                    <span>can't be empty</span>
+                        <input type="text" name="clientName" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceEdit.clientName} 
+                        ref = {clientName}/>
                     </label>
                     <label htmlFor="clientEmail">Client's Email
-                        <input type="text" name="clientEmail" defaultValue = {invoiceEdit.clientEmail} ref = {clientEmail}/>
+                    <span>can't be empty</span>
+                        <input type="text" name="clientEmail" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceEdit.clientEmail} 
+                        ref = {clientEmail}/>
                     </label>
                     <label htmlFor="clientStreet">Street Address
-                        <input type="text" name="clientStreet" defaultValue = {invoiceEdit.clientAddress.street} ref = {clientStreet}/>
+                    <span>can't be empty</span>
+                        <input type="text" name="clientStreet" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceEdit.clientAddress.street} 
+                        ref = {clientStreet}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="clientCity">City
-                            <input type="text" name="clientCity" defaultValue = {invoiceEdit.clientAddress.city} ref = {clientCity}/>
+                        <span>can't be empty</span>
+                            <input type="text" name="clientCity" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceEdit.clientAddress.city} 
+                            ref = {clientCity}/>
                         </label>
                         <label htmlFor="clientPostCode">Post Code
-                            <input type="text" name="clientPostCode" defaultValue = {invoiceEdit.clientAddress.postCode} ref = {clientPostCode}/>
+                        <span>can't be empty</span>
+                            <input type="text" name="clientPostCode" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceEdit.clientAddress.postCode} 
+                            ref = {clientPostCode}/>
                         </label>
                         <label htmlFor="clientCountry">Country
-                            <input type="text" name="clientCountry" defaultValue = {invoiceEdit.clientAddress.country} ref = {clientCountry}/>
+                        <span>can't be empty</span>
+                            <input type="text" name="clientCountry" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceEdit.clientAddress.country} 
+                            ref = {clientCountry}/>
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <FlexWrapper>
                         <label htmlFor="invoiceDate">Invoice Date
-                            <input type="date" name="invoiceDate" defaultValue = {invoiceEdit.createdAt} ref = {createdAt}/>
+                            <input type="date" name="invoiceDate"
+                             defaultValue = {invoiceEdit.createdAt} 
+                            ref = {createdAt}/>
                         </label>
                         <label htmlFor="paymentTerms" >Payment Terms<br/>
-                            <select id="paymentTerms" name="paymentTerms" defaultValue = {invoiceEdit.paymentTerms} ref = {paymentTerms}>
+                            <select id="paymentTerms" name="paymentTerms" 
+                            defaultValue = {invoiceEdit.paymentTerms} 
+                            ref = {paymentTerms}>
                                 <option value="1">Net 1 Day</option>
                                 <option value="7">Net 7 Days</option>
                                 <option value="14">Net 14 Days</option>
@@ -261,7 +348,11 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                         </label>
                     </FlexWrapper>
                     <label htmlFor="projectDescription">Project Description
-                        <input type="text" name="projectDescription" defaultValue = {invoiceEdit.description} ref = {description}/>
+                    <span>can't be empty</span>
+                        <input type="text" name="projectDescription" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceEdit.description} 
+                        ref = {description}/>
                     </label>
                 </fieldset>
                 <fieldset>
@@ -302,24 +393,12 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                         </FlexWrapper>
                     })}
                     
-                    { /*isAddItemOpen && <FlexWrapper>
-                        <ItemField htmlFor="itemName">
-                         <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} defaultValue = "" ref = {itemName}/>
-                        </ItemField>
-                        <ItemField htmlFor="itemQuantity">
-                        <input type="number" name="itemQuantity" onFocus = {() => itemQuantity.current.value = ""} defaultValue = "" ref = {itemQuantity}/>
-                        </ItemField>
-                        <ItemField htmlFor="itemPrice">
-                          <input type="number" name="itemPrice" onFocus = {() => itemPrice.current.value = ""} defaultValue = "" ref = {itemPrice}/>
-                        </ItemField>
-                        <ItemField htmlFor="total">
-                           <input type="number" name="total"/>
-                        </ItemField>
-                         <img src = { bin } alt = "bin"/>
-                    </FlexWrapper>*/}
-                    
                     <ButtonAddItem onClick = {addNewItemField}> + Add New Item</ButtonAddItem>                    
                 </fieldset>
+                <ErrorsStyling>
+                    <FormErrors formErrors = {formErrors}/>
+                </ErrorsStyling>
+                
                 <GradientDiv>
                         <div></div>
                         <EditButtons cancelForm = {onFormCancel} submitForm = { onFormSubmit }/>
@@ -396,7 +475,22 @@ const FormContainer = styled.form`
         border: ${props => props.theme.inputBorder};
         box-shadow : ${props => props.theme.inputBoxShadow} ;
     }
-
+    span{
+        float: right;
+        font-size: 10px;
+        line-height: 15px;
+        letter-spacing: -0.25px;
+        display: none;
+    }
+    .error{
+        color: #EC5757; 
+        span{
+            display: block;
+        }
+        input{            
+            border: 1px solid #EC5757;
+        }
+    }
     input:-webkit-autofill{
         -webkit-text-fill-color: ${props => props.theme.titleColor} !important;
     }
@@ -517,3 +611,14 @@ const FormContainer = styled.form`
             }            
         }
    `
+   const ErrorsStyling = styled.div`
+   margin: 48px -16px 48px 44px;
+       p{
+            color:#EC5757;
+            font-size: 10px;
+            line-height: 15px;
+            letter-spacing: -0.21px;
+            font-weight: 500;
+       }
+   `
+   

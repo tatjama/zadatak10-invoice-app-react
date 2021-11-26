@@ -88,16 +88,19 @@ input, select, option{
     color:  #0C0E16;
     padding: 8px 0 0 15px;
     border: 1px solid #DFE3FA;
-    border-radius: 4px;
     outline: none;
     cursor: pointer;
+    /*border-radius: 4px;    
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
-    -o-border-radius: 4px;
+    -o-border-radius: 4px;*/
 }
 input{
     box-shadow: 0 0 0px 1000px #FFFFFF inset;
+}
+input[type="date"], select{
+    padding: 8px 15px;
 }
 input:hover, select:hover{
     border: 1px solid #7C5DFA; 

@@ -1,8 +1,9 @@
-import React, {useState, useRef } from 'react';
+import React, {useState, useRef, useEffect } from 'react';
 import styled  from 'styled-components';
 import bin  from '../assets/icon-delete.svg';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
+import FormErrors from '../components/Errors/FormErrors';
 
 const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     class Address  {
@@ -66,9 +67,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
              this.total =  sum;
          }
     }
-    
-    
-    
+
     const createdAt = useRef('');
     const description = useRef('');
     const paymentTerms = useRef('');
@@ -82,24 +81,59 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const clientCity = useRef('');
     const clientCountry = useRef('');
     const clientPostCode = useRef('');
-    const itemName = useRef('');
-    const itemQuantity = useRef('');
-    const itemPrice = useRef('');
-   
-    const [isAddItemOpen, setIsAddItemOpen] = useState(true);
+
     const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
 
+    const [formErrors, setFormErrors] = useState([]);
+
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+     
+
+    const formValidation = (formValues, fieldNames, fieldRefs) =>{
+        let fieldValidationErrors = [];
+        for(let i=0; i < 13; i++){         
+            switch(fieldNames[i]) {
+              case 'clientName':
+                let nameValid = (formValues[i].match(/^[a-z ,.'-]+$/i) 
+                && formValues[i] !=="");
+                if(!nameValid) {
+                    fieldValidationErrors.push("Client name is not valid!");
+                    fieldRefs[i].current.parentElement.className = "error";
+                    }
+                break;
+               case 'clientEmail':
+                let emailValid = (formValues[i].match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
+                && formValues[i] !=="");
+                if(!emailValid) {
+                        fieldValidationErrors.push("Client email is invalid!");
+                        fieldRefs[i].current.parentElement.className = "error";
+                    }
+                break;
+              default:
+                  let fieldValid = (formValues[i] !== '');
+                  if(!fieldValid) {
+                      fieldValidationErrors.push(fieldNames[i] + " cannot be empty!")
+                      fieldRefs[i].current.parentElement.className = "error";
+                  }   
+                break;
+            }
+         }
+         return fieldValidationErrors;       
+    }
+         
     const addItemField = () => {
         const tempInvoice = {...invoiceAdd}
         tempInvoice.addItem(new Item("", 0, 0));
         setInvoiceAdd(tempInvoice);
-        //const listItems =[...invoiceAdd.items, new Item("", 0, 0)];
     }
 
+    
     const handleOnChange = (index, event) => {
         const tempInvoice = { ...invoiceAdd};
         tempInvoice.items[index][event.target.name] = event.target.value;
+        console.log(event.target.parentElement)
         tempInvoice.items.forEach(value => value.total = value.price*value.quantity);
         setInvoiceAdd(tempInvoice);
     }
@@ -110,78 +144,96 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
         setInvoiceAdd(tempInvoice);
     }
 
-   /* const addNewItem = () => {        
-            setIsAddItemOpen(true);  
-            const itemNameValue = itemName.current.value;
-                const itemQuantityValue = itemQuantity.current.value;
-                const itemPriceValue = itemPrice.current.value;
+    const  createId = () => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[ Math.floor(Math.random() *25)] 
+    + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[ Math.floor(Math.random() *25)] 
+        + Math.floor(Math.random() * 9999).toString().padStart(4,0);          
+
+   
+    /*const  createId = () =>  {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const firstLetter = chars[ Math.floor(Math.random() *25)];
+        const secondLetter = chars[ Math.floor(Math.random() *25)];
+        const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
+        return firstLetter + secondLetter + numbers;
+    } */
+
+    const createInvoice = () => {
+        const createdAtValue = createdAt.current.value;
+        const descriptionValue = description.current.value;
+        const paymentTermsValue = paymentTerms.current.value;
+        const clientNameValue = clientName.current.value;
+        const clientEmailValue = clientEmail.current.value;
+        const senderStreetValue = senderStreet.current.value;
+        const senderCityValue = senderCity.current.value;
+        const senderCountryValue = senderCountry.current.value;
+        const senderPostCodeValue = senderPostCode.current.value;
+        const clientStreetValue = clientStreet.current.value;
+        const clientCityValue = clientCity.current.value;
+        const clientCountryValue = clientCountry.current.value;
+        const clientPostCodeValue = clientPostCode.current.value;
+
+        const formFieldsValues = [createdAtValue, descriptionValue ,paymentTermsValue, 
+             clientNameValue, clientEmailValue, senderStreetValue ,senderCityValue ,
+              senderCountryValue, senderPostCodeValue ,  clientStreetValue, clientCityValue, 
+              clientCountryValue, clientPostCodeValue ];
+        const formFieldsNames = ["invoiceDate", "projectDescription" ,"paymentTerms", 
+            "clientName", "clientEmail", "senderStreet" ,"senderCity" ,
+             "senderCountry", "senderPostCode" ,  "clientStreet", "clientCity", 
+             "clientCountry", "clientPostCode"];    
+        const formFieldsRef = [createdAt, description ,paymentTerms, 
+            clientName, clientEmail, senderStreet ,senderCity ,
+             senderCountry, senderPostCode ,  clientStreet, clientCity, 
+             clientCountry, clientPostCode]     
         
-                let tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-                let tempInvoice = {...invoiceAdd};
-                tempInvoice.items.push(tempItem);
-                setInvoiceAdd(tempInvoice);
-            }*/
+        const tempInvoice = new Invoice(createdAtValue, invoiceAdd.status , descriptionValue, paymentTermsValue, 
+        clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
+        senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
+        clientCountryValue, invoiceAdd.items );
 
-            const  createId = () =>  {
-                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                const firstLetter = chars[ Math.floor(Math.random() *25)];
-                const secondLetter = chars[ Math.floor(Math.random() *25)];
-                const numbers = Math.floor(Math.random() * 9999).toString().padStart(4,0);
-                return firstLetter + secondLetter + numbers;
-            } 
+        tempInvoice.calculateTotal();
+        tempInvoice.id = (invoice.id)? invoice.id: createId();
+        tempInvoice.status = "pending";
+        const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
+        return [tempInvoice, fErrors];
+    }
 
-            const createInvoice = () => {
-                const createdAtValue = createdAt.current.value;
-            const descriptionValue = description.current.value;
-            const paymentTermsValue = paymentTerms.current.value;
-            const clientNameValue = clientName.current.value;
-            const clientEmailValue = clientEmail.current.value;
-            const senderStreetValue = senderStreet.current.value;
-            const senderCityValue = senderCity.current.value;
-            const senderCountryValue = senderCountry.current.value;
-            const senderPostCodeValue = senderPostCode.current.value;
-            const clientStreetValue = clientStreet.current.value;
-            const clientCityValue = clientCity.current.value;
-            const clientCountryValue = clientCountry.current.value;
-            const clientPostCodeValue = clientPostCode.current.value;
-            const itemNameValue = itemName.current.value;
-            const itemQuantityValue = itemQuantity.current.value;
-            const itemPriceValue = itemPrice.current.value;
-        
-                const tempInvoice = new Invoice(createdAtValue, invoiceAdd.status , descriptionValue, paymentTermsValue, 
-                    clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
-                    senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
-                    clientCountryValue, invoiceAdd.items );
-                //const tempItem = new Item(itemNameValue, itemQuantityValue, itemPriceValue);
-                //tempInvoice.addItem(tempItem);
-                tempInvoice.calculateTotal();
-                tempInvoice.id = (invoice.id)? invoice.id: createId();
-                return tempInvoice;
-            }
-
-            const onSaveAsDraft = (event) => {
-                event.preventDefault();
-                const addedInvoice = createInvoice();
-                addedInvoice.status = 'draft';
-                onSubmitForm(addedInvoice);
-                handleGoBack();
-            }
-
-            const onFormSubmit = (event) => {
-                event.preventDefault();
-                const addedInvoice = createInvoice();
-                console.log(addedInvoice);
-                //form validation === true
-                addedInvoice.status = "pending";
-                onSubmitForm(addedInvoice);
-                handleGoBack();
-            }        
+    const onSaveAsDraft = (event) => {
+        event.preventDefault();
+        const [addedInvoice,ffErrors] = createInvoice();
+        addedInvoice.status = 'draft';
+        onSubmitForm(addedInvoice);
+        handleGoBack();
+    }
     
+    const onFormSubmit = (event) => {
+        event.preventDefault();
+        const [addedInvoice, errorsList] = createInvoice();
+        setInvoiceAdd(addedInvoice)
+        setFormErrors(errorsList);
+        setIsSubmitted(true);
+    }        
+    
+    useEffect(() => {
+        if (isSubmitted) {
+          if (formErrors.length === 0) {
+            setIsFormValid(true);
+            onSubmitForm(invoiceAdd);
+            handleGoBack();
+          } else {
+            setIsFormValid(false);
+          }
+          setIsSubmitted(false);
+        }
+      }, [isSubmitted, formErrors, handleGoBack, invoiceAdd, onSubmitForm]);
+    
+
     const handleSubmit = (event) => {
         event.preventDefault();
     }
+    const handleOnFocus = (e) => {
+        e.target.parentElement.className = "";
+    }
 
-    console.log(invoiceAdd)
     return(
         <ModalContainer>     
             <FormContainer onSubmit = {handleSubmit}>
@@ -192,51 +244,97 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 
                 <fieldset>
                     <legend>Bill From</legend>
-                    <label htmlFor="senderStreet">Street Address
-                        <input type="text" defaultValue = {invoiceAdd.senderAddress.street} name="senderStreet"  ref={senderStreet}/>
+                    <label  htmlFor="senderStreet">Street Address
+                    <span>can't be empty</span> 
+                        <input  type="text" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceAdd.senderAddress.street} 
+                        name="senderStreet"  ref={senderStreet}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="senderCity">City
-                            <input type="text" defaultValue = {invoiceAdd.senderAddress.city} name="senderCity" ref={senderCity}/>
+                        <span>can't be empty</span> 
+                            <input type="text"
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.senderAddress.city} 
+                            name="senderCity" ref={senderCity}/>
                         </label>
                         <label htmlFor="senderPostCode">Post Code
-                            <input type="text" name="senderPostCode" defaultValue = {invoiceAdd.senderAddress.postCode} ref = {senderPostCode}/>
+                        <span>can't be empty</span> 
+                            <input type="text" name="senderPostCode" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.senderAddress.postCode} 
+                            ref = {senderPostCode}/>
                         </label>
                         <label htmlFor="senderCountry">Country
-                            <input type="text" name="senderCountry" defaultValue = {invoiceAdd.senderAddress.country} ref = {senderCountry}/> 
+                        <span>can't be empty</span> 
+                            <input type="text" name="senderCountry" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.senderAddress.country} 
+                            ref = {senderCountry}/> 
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <legend>Bill To</legend>
                     <label htmlFor="clientName">Client's name
-                        <input type="text" name="clientName" defaultValue = {invoiceAdd.clientName} ref = {clientName}/>
+                    <span>can't be empty</span> 
+                        <input type="text" name="clientName" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                         defaultValue = {invoiceAdd.clientName} ref = {clientName}/>
                     </label>
                     <label htmlFor="clientEmail">Client's Email
-                        <input type="text" name="clientEmail" defaultValue = {invoiceAdd.clientEmail} ref = {clientEmail}/>
+                    <span>can't be empty</span> 
+                        <input type="text" name="clientEmail" 
+                        placeholder = "e.g. email@example.com"
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceAdd.clientEmail} 
+                        ref = {clientEmail}/>
                     </label>
                     <label htmlFor="clientStreet">Street Address
-                        <input type="text" name="clientStreet" defaultValue = {invoiceAdd.clientAddress.street} ref = {clientStreet}/>
+                    <span>can't be empty</span> 
+                        <input type="text" name="clientStreet" 
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceAdd.clientAddress.street} 
+                        ref = {clientStreet}/>
                     </label>
                     <FlexWrapper>
                         <label htmlFor="clientCity">City
-                            <input type="text" name="clientCity" defaultValue = {invoiceAdd.clientAddress.city} ref = {clientCity}/>
+                        <span>can't be empty</span> 
+                            <input type="text" name="clientCity" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.clientAddress.city} 
+                            ref = {clientCity}/>
                         </label>
                         <label htmlFor="clientPostCode">Post Code
-                            <input type="text" name="clientPostCode" defaultValue = {invoiceAdd.clientAddress.postCode} ref = {clientPostCode}/>
+                        <span>can't be empty</span> 
+                            <input type="text" name="clientPostCode" 
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.clientAddress.postCode} 
+                            ref = {clientPostCode}/>
                         </label>
                         <label htmlFor="clientCountry">Country
-                            <input type="text" name="clientCountry" defaultValue = {invoiceAdd.clientAddress.country} ref = {clientCountry}/>
+                        <span>can't be empty</span> 
+                            <input type="text" name="clientCountry"
+                            onFocus = {(e) => handleOnFocus(e)}
+                            defaultValue = {invoiceAdd.clientAddress.country} 
+                            ref = {clientCountry}/>
                         </label>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
                     <FlexWrapper>
                         <label htmlFor="invoiceDate">Invoice Date
-                            <input type="date" name="invoiceDate" defaultValue = {new Date().toISOString().substr(0,10)} ref = {createdAt}/>
+                        <span>can't be empty</span> 
+                            <input type="date" name="invoiceDate" 
+                            defaultValue = {new Date().toISOString().substr(0,10)} 
+                            ref = {createdAt}/>
                         </label>
                         <label htmlFor="paymentTerms" >Payment Terms<br/>
-                            <select id="paymentTerms" name="paymentTerms" defaultValue = {invoiceAdd.paymentTerms} ref = {paymentTerms}>
+                        <span>can't be empty</span> 
+                            <select id="paymentTerms" name="paymentTerms" 
+                            defaultValue = {invoiceAdd.paymentTerms} 
+                            ref = {paymentTerms}>
                                 <option value="1">Net 1 Day</option>
                                 <option value="7">Net 7 Days</option>
                                 <option value="14">Net 14 Days</option>
@@ -245,7 +343,12 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         </label>
                     </FlexWrapper>
                     <label htmlFor="projectDescription">Project Description
-                        <input type="text" name="projectDescription" defaultValue = {invoiceAdd.description} ref = {description}/>
+                    <span>can't be empty</span> 
+                        <input type="text" name="projectDescription" 
+                        placeholder = "e.g. Graphic Design Service"
+                        onFocus = {(e) => handleOnFocus(e)}
+                        defaultValue = {invoiceAdd.description} 
+                        ref = {description}/>
                     </label>
                 </fieldset>
                 <fieldset>
@@ -262,19 +365,16 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         return<FlexWrapper key = {idx}> 
                             <ItemField >
                          <input type="text" name = "name" 
-                         onFocus = {(e) => e.target.value = ""}
                          onChange = {(event) => handleOnChange(idx, event)} 
                          defaultValue = {item.name}  />
                         </ItemField>
                         <ItemField >
                         <input type="number" name = "quantity"
-                        onFocus = { (e) => e.target.value = ""}
                         onChange = {(event) => handleOnChange(idx, event)} 
                         defaultValue = {item.quantity}/>
                         </ItemField>
                         <ItemField >
-                          <input type="number" name = "price" 
-                          onFocus = { (e) => e.target.value = ""}
+                          <input type="number" name = "price"
                           onChange = {(event) => handleOnChange(idx, event)} 
                           defaultValue = {item.price} />
                         </ItemField>
@@ -283,26 +383,13 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         </ItemField>
                          <img onClick = { (idx) => removeItemField(idx)} src = { bin } alt = "bin"/>    
                         </FlexWrapper>
-                    })}
-                    
-                    {/* isAddItemOpen && <FlexWrapper>
-                        <ItemField htmlFor="itemName">
-                         <input type="text"  name="itemName" onFocus = {() => itemName.current.value = ""} ref = {itemName}/>
-                        </ItemField>
-                        <ItemField htmlFor="itemQuantity">
-                        <input type="number" name="itemQuantity" onFocus = {() => itemQuantity.current.value = ""} ref = {itemQuantity}/>
-                        </ItemField>
-                        <ItemField htmlFor="itemPrice">
-                          <input type="number" name="itemPrice" onFocus = {() => itemPrice.current.value = ""} ref = {itemPrice}/>
-                        </ItemField>
-                        <ItemField htmlFor="total">
-                           <input type="number" name="total"/>
-                        </ItemField>
-                         <img src = { bin } alt = "bin"/>
-                    </FlexWrapper>*/}
+                    })}                    
                     
                     <ButtonAddItem onClick = {addItemField}> + Add New Item</ButtonAddItem>                    
                 </fieldset>
+                <ErrorsStyling>
+                    <FormErrors formErrors = {formErrors}/>
+                </ErrorsStyling>
                 <GradientDiv>
                         <div></div>
                         <FormButtons saveAsDraft = { onSaveAsDraft } discardForm = {handleGoBack} submitForm = { onFormSubmit }/>
@@ -378,8 +465,23 @@ const FormContainer = styled.form`
         color: ${props => props.theme.titleColor} !important;
         border: ${props => props.theme.inputBorder};
         box-shadow : ${props => props.theme.inputBoxShadow} ;
+    }   
+    span{
+        float: right;
+        font-size: 10px;
+        line-height: 15px;
+        letter-spacing: -0.25px;
+        display: none;
     }
-
+    .error{
+        color: #EC5757; 
+        span{
+            display: block;
+        }
+        input{            
+            border: 1px solid #EC5757;
+        }
+    }
     input:-webkit-autofill{
         -webkit-text-fill-color: ${props => props.theme.titleColor} !important;
     }
@@ -431,6 +533,7 @@ const FormContainer = styled.form`
         margin-top: 50px;
         cursor: pointer;
     }
+ 
     @media screen and (max-width:600px){
         label{
             width: 152px;
@@ -528,4 +631,14 @@ width: 15px;
                 }
             }            
         }
+   `
+   const ErrorsStyling = styled.div`
+   margin: 48px -16px 48px 44px;
+       p{
+            color:#EC5757;
+            font-size: 10px;
+            line-height: 15px;
+            letter-spacing: -0.21px;
+            font-weight: 500;
+       }
    `
