@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled  from 'styled-components';
+import { Container } from './InvoiceStyle';
 import Main from '../components/Main';
 import Aside from '../components/Aside';
 import Modal from './Modal';
@@ -7,7 +7,6 @@ import Modal from './Modal';
 
 const Home = ({theme, setTheme, invoices, onSubmitForm}) => {
      const [ isUpdate, setIsUpdate ] = useState(false);   
-    console.log(theme)
 
     const [isAddForm, setIsAddForm] = useState(false)
 
@@ -35,14 +34,3 @@ const Home = ({theme, setTheme, invoices, onSubmitForm}) => {
 export default Home;
 
 
-const Container = styled.div` 
-    width: 100%;
-    min-height: 100vh;
-    background-color: ${props=>props.theme.background};
-    display: flex;
-    transition: all 0.5s ease;
-
-    @media screen and (max-width: 1000px) {
-        flex-direction: column;
-    }
-`;
