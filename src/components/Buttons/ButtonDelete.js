@@ -1,5 +1,5 @@
 
-import { ButtonDeleteStyle } from './ButtonGlobalStyle';
+import { ButtonDeleteStyle } from './ButtonsGlobalStyle';
 
 const ButtonDelete = ({ deleteInvoice }) => {
     return (

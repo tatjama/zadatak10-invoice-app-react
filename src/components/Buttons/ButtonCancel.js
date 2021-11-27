@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonCancelStyle } from './ButtonGlobalStyle';
+import { ButtonCancelStyle } from './ButtonsGlobalStyle';
 
 const ButtonCancel = ({ onCancelDelete }) => {
     return (
