@@ -1,13 +1,14 @@
 import React, {useState, useRef, useEffect } from 'react';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
-import FormErrors from '../components/Errors/FormErrors';
+import FormErrors from '../components/Forms/FormErrors';
 import { Invoice } from '../util/Invoice';
 import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
+import { itemsValidation } from '../util/itemsValidation';
 import { createId } from '../util/createId';
 import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper ,  
-    GradientDiv , ErrorsStyling } from './ModalStyle';
+    GradientDiv } from './ModalStyle';
 import  ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
@@ -25,7 +26,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     const clientCity = useRef('');
     const clientCountry = useRef('');
     const clientPostCode = useRef('');
-    
+    const itemName = useRef('');
+    const itemQuantity = useRef('');
+    const itemPrice = useRef('');
+
     const initialInvoice = JSON.parse(JSON.stringify(invoice))
     const [ invoiceEdit, setInvoiceEdit] = useState(new Invoice(initialInvoice.createdAt, 
         initialInvoice.status, initialInvoice.description, initialInvoice.paymentTerms, 
@@ -42,27 +46,6 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     const [formErrors, setFormErrors] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const addItemField = (event) => {
-        event.preventDefault();
-        setItemFields([...itemFields, new Item("", 0, 0)]);
-    }
-    
-        const handleOnChange = (index, event) => {
-            const values = [...itemFields];      
-            values[index][event.target.name] = event.target.value;
-            values.forEach(value => value.total = value.price*value.quantity)
-            setItemFields(values)
-        }
-
-        
-
-        const removeItemField = (index) => {
-            const values = [...itemFields];
-            values.splice(index, 1);
-            setItemFields(values);
-        }
-
-       
         const createInvoice = () => {
             const createdAtValue = createdAt.current.value;
             const descriptionValue = description.current.value;
@@ -97,8 +80,12 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 clientCityValue, clientPostCodeValue, clientCountryValue, itemFields );
             tempInvoice.calculateTotal();
             tempInvoice.id = (invoice.id)? invoice.id: createId();
+            const itemErrors = itemsValidation(itemName, itemQuantity, itemPrice);
             const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
-            return [tempInvoice, fErrors];
+            if(itemErrors.length > 0){
+                fErrors.push(itemErrors[0])
+            }
+           return [tempInvoice, fErrors];
         }
 
 
@@ -248,13 +235,12 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 </fieldset>
                 <ItemsFieldset 
                     itemFields = { itemFields } 
-                    handleOnChange ={ handleOnChange } 
-                    removeItemField = { removeItemField }
-                    addItemField = { addItemField }/>
-                <ErrorsStyling>
-                    <FormErrors formErrors = {formErrors}/>
-                </ErrorsStyling>
-                
+                    setItemFields = { setItemFields }
+                    itemName = { itemName }
+                    itemQuantity = { itemQuantity }
+                    itemPrice = { itemPrice }
+                    />                
+                <FormErrors formErrors = {formErrors}/>                
                 <GradientDiv>
                         <div></div>
                         <EditButtons cancelForm = {onFormCancel} submitForm = { onFormSubmit }/>

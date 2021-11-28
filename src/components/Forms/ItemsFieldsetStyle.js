@@ -23,6 +23,9 @@ const FlexWrapperItems = styled.section`
 `
 const FirstItemsContainer = styled.div`
     width: 230px;
+    input.error{
+        border: 1px solid red;
+    }
     @media screen and (max-width:600px){
         width: 100%;
         label{
@@ -35,6 +38,9 @@ const SecondItemsContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    input.error{
+        border: 1px solid red;
+    }
     @media screen and (max-width:600px){
         width: 100%;
     }

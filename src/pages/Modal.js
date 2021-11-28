@@ -1,14 +1,14 @@
 import React, {useState, useRef, useEffect } from 'react';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
-import FormErrors from '../components/Errors/FormErrors';
+import FormErrors from '../components/Forms/FormErrors';
 import { Invoice } from '../util/Invoice';
 import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
+import { itemsValidation } from '../util/itemsValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper ,
-     GradientDiv , ErrorsStyling} from './ModalStyle';
-   import styled  from 'styled-components';
+import  {ModalContainer, LinkContainer ,FormContainer, FlexWrapper ,GradientDiv } from './ModalStyle';
+import styled  from 'styled-components';
 import ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 
@@ -27,6 +27,10 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const clientCity = useRef('');
     const clientCountry = useRef('');
     const clientPostCode = useRef('');
+    const itemName = useRef('');
+    const itemQuantity = useRef('');
+    const itemPrice = useRef('');
+
 
     const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
@@ -38,27 +42,6 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const [formErrors, setFormErrors] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
      
-
-         
-    const addItemField = () => {        
-        setItemFields([...itemFields, new Item("", 0, 0)])
-    }
-
-    
-    const handleOnChange = (index, event) => {
-        const values = [...itemFields];      
-            values[index][event.target.name] = event.target.value;
-            values.forEach(value => value.total = value.price*value.quantity)
-            setItemFields(values)
-    }
-
-    const removeItemField = (index, event) => {
-        const values = [...itemFields];
-            values.splice(index, 1);
-            setItemFields(values);
-    }
-
-
     const createInvoice = () => {
         const createdAtValue = createdAt.current.value;
         const descriptionValue = description.current.value;
@@ -95,7 +78,11 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
         tempInvoice.calculateTotal();
         tempInvoice.id = (invoice.id)? invoice.id: createId();
         tempInvoice.status = "pending";
+        const itemErrors = itemsValidation(itemName, itemQuantity, itemPrice);
         const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
+        if(itemErrors.length > 0){
+            fErrors.push(itemErrors[0])
+        }
         return [tempInvoice, fErrors];
     }
 
@@ -252,12 +239,13 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                 </fieldset>
                 <ItemsFieldset 
                     itemFields = { itemFields } 
-                    handleOnChange = { handleOnChange }
-                    removeItemField = { removeItemField } 
-                    addItemField = { addItemField }/>
-                <ErrorsStyling>
-                    <FormErrors formErrors = {formErrors}/>
-                </ErrorsStyling>
+                    setItemFields = { setItemFields }
+                    itemName = { itemName }
+                    itemQuantity = { itemQuantity }
+                    itemPrice = { itemPrice }
+
+                    />                
+                <FormErrors formErrors = {formErrors}/>                
                 <GradientDiv>
                         <div></div>
                         <FormButtons 

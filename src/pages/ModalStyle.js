@@ -78,6 +78,7 @@ const FormContainer = styled.form`
         color: #EC5757; 
         span{
             display: block;
+            margin-top: -15px;
         }
         input{            
             border: 1px solid #EC5757;
@@ -197,17 +198,7 @@ const GradientDiv = styled.div`
             }            
         }
    `
-const ErrorsStyling = styled.div`
-   margin: 48px -16px 48px 44px;
-       p{
-            color:#EC5757;
-            font-size: 10px;
-            line-height: 15px;
-            letter-spacing: -0.21px;
-            font-weight: 500;
-       }
-   `
-   
+
    export  { ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ItemParagraph,
-    ButtonAddItem, GradientDiv , ErrorsStyling }
+    ButtonAddItem, GradientDiv  }
    
