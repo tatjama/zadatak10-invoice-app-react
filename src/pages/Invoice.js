@@ -10,7 +10,6 @@ const Invoice = ({theme, setTheme, deleteInvoice, invoices, onUpdateForm, onClic
     const invoiceId = location.pathname.split('/')[2];
     const invoice = invoices.filter(item => item.id === invoiceId)[0];
         
-console.log(invoices)
     return(
             <Container  >
                 <Aside theme = {theme} setTheme={setTheme} />            

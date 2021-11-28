@@ -80,7 +80,11 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                 clientCityValue, clientPostCodeValue, clientCountryValue, itemFields );
             tempInvoice.calculateTotal();
             tempInvoice.id = (invoice.id)? invoice.id: createId();
-            const itemErrors = itemsValidation(itemName, itemQuantity, itemPrice);
+            let itemErrors = [];
+            if(itemName.current !== null && itemQuantity.current !==null && itemPrice !== null){
+                console.log(itemName)
+                itemErrors = itemsValidation(itemName, itemQuantity, itemPrice)
+            }
             const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
             if(itemErrors.length > 0){
                 fErrors.push(itemErrors[0])

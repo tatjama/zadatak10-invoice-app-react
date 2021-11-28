@@ -7,8 +7,7 @@ import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
 import { itemsValidation } from '../util/itemsValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer ,FormContainer, FlexWrapper ,GradientDiv } from './ModalStyle';
-import styled  from 'styled-components';
+import  {ModalContainer, LinkContainer ,FormContainer, FlexWrapper, LabelAddress ,GradientDiv } from './ModalStyle';
 import ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 
@@ -78,7 +77,11 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
         tempInvoice.calculateTotal();
         tempInvoice.id = (invoice.id)? invoice.id: createId();
         tempInvoice.status = "pending";
-        const itemErrors = itemsValidation(itemName, itemQuantity, itemPrice);
+        let itemErrors = [];
+        if((itemName.current !== null && itemQuantity.current !==null && itemPrice.current !== null)){
+            console.log(itemName)
+            itemErrors = itemsValidation(itemName, itemQuantity, itemPrice)
+        }
         const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
         if(itemErrors.length > 0){
             fErrors.push(itemErrors[0])
@@ -260,9 +263,4 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
 
 export default Modal;
 
-const LabelAddress = styled.label` 
-    width: 30%;
-    @media screen and (max-width:600px){
-        width: 152px
-    }
-`
+

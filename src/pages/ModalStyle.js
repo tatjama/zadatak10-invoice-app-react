@@ -103,17 +103,17 @@ const FormContainer = styled.form`
 const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    
+    label{
+        width: 152px;
+    }
     label[for = "invoiceDate"]{
         width: 48%;
     }
     label[for = "paymentTerms"]{
         width: 48%;
-    }
-     
-    
-    @media screen and (max-width:600px){
+    }    
+    @media screen and (max-width:600px){        
+        flex-wrap: wrap;    
         label{
             width: 152px;
             &:nth-child(3){
@@ -178,6 +178,12 @@ const ButtonAddItem = styled.button`
             margin: 48px 0 0 0;
         }
   `
+  const LabelAddress = styled.label` 
+  width: 152px;
+  @media screen and (max-width:600px){
+      width: 152px
+  }
+`
 const GradientDiv = styled.div`
         width: 100%;
         height: 155px;
@@ -200,5 +206,5 @@ const GradientDiv = styled.div`
    `
 
    export  { ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ItemParagraph,
-    ButtonAddItem, GradientDiv  }
+    ButtonAddItem, LabelAddress, GradientDiv  }
    

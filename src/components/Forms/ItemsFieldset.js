@@ -12,7 +12,11 @@ const ItemsFieldset = ({ itemFields, setItemFields, itemName, itemQuantity, item
     
     const addItemField = (event) => {        
         event.preventDefault();
-        const errorList = itemsValidation(itemName, itemQuantity, itemPrice)
+        let errorList = []
+        console.log(itemName !== null)
+        if((itemName.current !== null && itemQuantity.current !==null && itemPrice.current !== null)){
+            errorList = itemsValidation(itemName, itemQuantity, itemPrice)
+        }
         if(errorList.length ===  0){
             setFormErrors([])
             setItemFields([...itemFields, new Item("", 0, 0)])
