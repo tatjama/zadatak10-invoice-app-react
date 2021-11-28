@@ -1,9 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, InvoiceFooter } from './InvoiceStyle'
+import { Container } from './InvoiceStyle'
 import Aside from '../components/Aside';
 import InvoiceContainer from './../components/Invoices/InvoiceContainer';
-import Buttons from '../components/Buttons/Buttons';
 
 
 const Invoice = ({theme, setTheme, deleteInvoice, invoices, onUpdateForm, onClickDelete, onClickPaid,}) => {
@@ -22,10 +21,7 @@ console.log(invoices)
                     onClickPaid = { onClickPaid}
                     onUpdateForm = {onUpdateForm}
                     deleteInvoice = {() => deleteInvoice(invoiceId)}
-                    theme = {theme} />
-                <InvoiceFooter>
-                    <Buttons/>
-                </InvoiceFooter>
+                    theme = {theme} />                
             </Container>                    
     )
 }

@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect } from 'react';
-import bin  from '../assets/icon-delete.svg';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
 import FormErrors from '../components/Errors/FormErrors';
@@ -7,7 +6,7 @@ import { Invoice } from '../util/Invoice';
 import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField ,
+import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper ,
      GradientDiv , ErrorsStyling} from './ModalStyle';
    import styled  from 'styled-components';
 import ItemsFieldset from '../components/Forms/ItemsFieldset';
@@ -32,33 +31,31 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
 
-        
+         const [ itemFields, setItemFields ] = 
+         useState( invoiceAdd.items.map( (item) =>new Item(item.name, item.quantity, item.price)))
+         
 
     const [formErrors, setFormErrors] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
      
 
          
-    const addItemField = () => {
-        const tempInvoice = {...invoiceAdd}
-        tempInvoice.addItem(new Item("", 0, 0));
-        setInvoiceAdd(tempInvoice);
+    const addItemField = () => {        
+        setItemFields([...itemFields, new Item("", 0, 0)])
     }
 
     
     const handleOnChange = (index, event) => {
-        const tempInvoice = { ...invoiceAdd};
-        tempInvoice.items[index][event.target.name] = event.target.value;
-        tempInvoice.items.forEach(value => value.total = value.price*value.quantity);
-        setInvoiceAdd(tempInvoice);
+        const values = [...itemFields];      
+            values[index][event.target.name] = event.target.value;
+            values.forEach(value => value.total = value.price*value.quantity)
+            setItemFields(values)
     }
 
     const removeItemField = (index, event) => {
-        console.log(index)
-        const tempInvoice = {...invoiceAdd}
-        console.log(tempInvoice.items)
-        tempInvoice.items.splice(index, 1);
-        setInvoiceAdd(tempInvoice);
+        const values = [...itemFields];
+            values.splice(index, 1);
+            setItemFields(values);
     }
 
 
@@ -93,7 +90,7 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
         const tempInvoice = new Invoice(createdAtValue, invoiceAdd.status , descriptionValue, paymentTermsValue, 
         clientNameValue, clientEmailValue, senderStreetValue, senderCityValue, senderPostCodeValue,
         senderCountryValue, clientStreetValue, clientCityValue, clientPostCodeValue, 
-        clientCountryValue, invoiceAdd.items );
+        clientCountryValue, itemFields );
 
         tempInvoice.calculateTotal();
         tempInvoice.id = (invoice.id)? invoice.id: createId();
@@ -254,10 +251,10 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                     </label>
                 </fieldset>
                 <ItemsFieldset 
-                    invoiceItems = {invoiceAdd.items} 
-                    handleOnChange = {handleOnChange}
-                    removeItemField = {removeItemField} 
-                    addItemField = { addItemField}/>
+                    itemFields = { itemFields } 
+                    handleOnChange = { handleOnChange }
+                    removeItemField = { removeItemField } 
+                    addItemField = { addItemField }/>
                 <ErrorsStyling>
                     <FormErrors formErrors = {formErrors}/>
                 </ErrorsStyling>

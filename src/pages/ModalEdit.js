@@ -56,13 +56,13 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
 
         
 
-        const removeItemField = (id) => {
+        const removeItemField = (index) => {
             const values = [...itemFields];
-            values.splice(id, 1);
+            values.splice(index, 1);
             setItemFields(values);
         }
 
-    
+       
         const createInvoice = () => {
             const createdAtValue = createdAt.current.value;
             const descriptionValue = description.current.value;
@@ -247,7 +247,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                     </label>
                 </fieldset>
                 <ItemsFieldset 
-                    invoiceItems = { itemFields } 
+                    itemFields = { itemFields } 
                     handleOnChange ={ handleOnChange } 
                     removeItemField = { removeItemField }
                     addItemField = { addItemField }/>

@@ -37,7 +37,7 @@ const FirstButtons = styled.section`
 const ButtonDeleteStyle = styled.button`
      background-color: #EC5757;
      color: #FFFFFF;
-     margin-left: 8px;
+     margin: 0 8px;
      &:hover{
          background-color: #FF9797;
     }

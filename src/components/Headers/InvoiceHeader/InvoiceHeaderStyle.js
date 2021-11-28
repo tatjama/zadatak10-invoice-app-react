@@ -22,7 +22,10 @@ const HeaderContainer = styled.header`
 const ButtonsResponsive = styled.div`
     width: 309px;
     @media screen and (max-width: 600px){
-        display: none;
+        position: absolute;
+        bottom: -100px;
+        left: 0;
+        padding:  10px 0;
     }
  `
 
