@@ -68,7 +68,7 @@ const FormContainer = styled.form`
         box-shadow : ${props => props.theme.inputBoxShadow} ;
     }
     span{
-        float: right;
+        text-align: right;
         font-size: 10px;
         line-height: 15px;
         letter-spacing: -0.25px;
@@ -103,9 +103,7 @@ const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    label{
-        width: 30%;        
-    }
+    
     label[for = "invoiceDate"]{
         width: 48%;
     }
@@ -113,11 +111,7 @@ const FlexWrapper = styled.div`
         width: 48%;
     }
      
-    img{
-        object-fit: contain;
-        margin-top: 50px;
-        cursor: pointer;
-    }
+    
     @media screen and (max-width:600px){
         label{
             width: 152px;
@@ -136,21 +130,17 @@ const FlexWrapper = styled.div`
   `
 const ItemField = styled.label`
         &:nth-child(1){
-        width: 42%;
+        width: 214px;
     } 
     &:nth-child(2){
-        width: 9%;
+        width: 46px;
     } 
     &:nth-child(3){
-        width: 20%;
+        width: 100px;
     } 
     &:nth-child(4){
-        width: 9%;
-        input{
-            border: transparent;
-            padding-left: 0;
-            color: ${props => props.theme.paragraphInvoice} !important;
-        }
+        width: 46px;
+        
     } 
     &:nth-child(5){
         width: 15px;
@@ -169,8 +159,12 @@ const ItemField = styled.label`
             width: 20%;
         }
     }
-    `
-
+`
+const ItemParagraph = styled.p`
+    width: 46px;
+    font-weight: 700;
+    color: ${props => props.theme.paragraphInvoice};
+`
 const ButtonAddItem = styled.button`   
         width: 100%;
         background-color:${props => props.theme.backgroundItemsInvoice};
@@ -213,6 +207,7 @@ const ErrorsStyling = styled.div`
             font-weight: 500;
        }
    `
-   export  { ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ButtonAddItem,  
-     GradientDiv , ErrorsStyling }
+   
+   export  { ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ItemParagraph,
+    ButtonAddItem, GradientDiv , ErrorsStyling }
    

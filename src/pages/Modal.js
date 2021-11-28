@@ -7,8 +7,10 @@ import { Invoice } from '../util/Invoice';
 import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ButtonAddItem,  
-    GradientDiv , ErrorsStyling } from './ModalStyle';
+import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField ,
+     GradientDiv , ErrorsStyling} from './ModalStyle';
+   import styled  from 'styled-components';
+import ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 
 const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
@@ -30,6 +32,8 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
     const [ invoiceAdd, setInvoiceAdd] = useState(new Invoice(new Date().toISOString().substr(0,10), "", "", "1", "", "", "",
          "", "", "", "", "", "", "", []));
 
+        
+
     const [formErrors, setFormErrors] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
      
@@ -49,8 +53,10 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
         setInvoiceAdd(tempInvoice);
     }
 
-    const removeItemField = (index) => {
+    const removeItemField = (index, event) => {
+        console.log(index)
         const tempInvoice = {...invoiceAdd}
+        console.log(tempInvoice.items)
         tempInvoice.items.splice(index, 1);
         setInvoiceAdd(tempInvoice);
     }
@@ -148,27 +154,27 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         name="senderStreet"  ref={senderStreet}/>
                     </label>
                     <FlexWrapper>
-                        <label htmlFor="senderCity">City
+                        <LabelAddress htmlFor="senderCity">City
                         <span>can't be empty</span> 
                             <input type="text"
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.senderAddress.city} 
                             name="senderCity" ref={senderCity}/>
-                        </label>
-                        <label htmlFor="senderPostCode">Post Code
+                        </LabelAddress>
+                        <LabelAddress htmlFor="senderPostCode">Post Code
                         <span>can't be empty</span> 
                             <input type="text" name="senderPostCode" 
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.senderAddress.postCode} 
                             ref = {senderPostCode}/>
-                        </label>
-                        <label htmlFor="senderCountry">Country
+                        </LabelAddress>
+                        <LabelAddress htmlFor="senderCountry">Country
                         <span>can't be empty</span> 
                             <input type="text" name="senderCountry" 
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.senderAddress.country} 
                             ref = {senderCountry}/> 
-                        </label>
+                        </LabelAddress>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
@@ -195,27 +201,27 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         ref = {clientStreet}/>
                     </label>
                     <FlexWrapper>
-                        <label htmlFor="clientCity">City
+                        <LabelAddress htmlFor="clientCity">City
                         <span>can't be empty</span> 
                             <input type="text" name="clientCity" 
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.clientAddress.city} 
                             ref = {clientCity}/>
-                        </label>
-                        <label htmlFor="clientPostCode">Post Code
+                        </LabelAddress>
+                        <LabelAddress htmlFor="clientPostCode">Post Code
                         <span>can't be empty</span> 
                             <input type="text" name="clientPostCode" 
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.clientAddress.postCode} 
                             ref = {clientPostCode}/>
-                        </label>
-                        <label htmlFor="clientCountry">Country
+                        </LabelAddress>
+                        <LabelAddress htmlFor="clientCountry">Country
                         <span>can't be empty</span> 
                             <input type="text" name="clientCountry"
                             onFocus = {(e) => handleOnFocus(e)}
                             defaultValue = {invoiceAdd.clientAddress.country} 
                             ref = {clientCountry}/>
-                        </label>
+                        </LabelAddress>
                     </FlexWrapper>
                 </fieldset>
                 <fieldset>
@@ -247,48 +253,20 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
                         ref = {description}/>
                     </label>
                 </fieldset>
-                <fieldset>
-                    <h2> Item List</h2>
-                    <FlexWrapper>
-                        <ItemField>Item Name</ItemField>
-                        <ItemField >Qty.</ItemField>
-                        <ItemField >Price</ItemField>
-                        <ItemField >Total</ItemField>
-                        <ItemField></ItemField>
-                    </FlexWrapper>
-                    {
-                    invoiceAdd.items.map((item, idx) =>{
-                        return<FlexWrapper key = {idx}> 
-                            <ItemField >
-                         <input type="text" name = "name" 
-                         onChange = {(event) => handleOnChange(idx, event)} 
-                         defaultValue = {item.name}  />
-                        </ItemField>
-                        <ItemField >
-                        <input type="number" name = "quantity"
-                        onChange = {(event) => handleOnChange(idx, event)} 
-                        defaultValue = {item.quantity}/>
-                        </ItemField>
-                        <ItemField >
-                          <input type="number" name = "price"
-                          onChange = {(event) => handleOnChange(idx, event)} 
-                          defaultValue = {item.price} />
-                        </ItemField>
-                        <ItemField >
-                           <input type="number" defaultValue = {item.total}/>
-                        </ItemField>
-                         <img onClick = { (idx) => removeItemField(idx)} src = { bin } alt = "bin"/>    
-                        </FlexWrapper>
-                    })}                    
-                    
-                    <ButtonAddItem onClick = {addItemField}> + Add New Item</ButtonAddItem>                    
-                </fieldset>
+                <ItemsFieldset 
+                    invoiceItems = {invoiceAdd.items} 
+                    handleOnChange = {handleOnChange}
+                    removeItemField = {removeItemField} 
+                    addItemField = { addItemField}/>
                 <ErrorsStyling>
                     <FormErrors formErrors = {formErrors}/>
                 </ErrorsStyling>
                 <GradientDiv>
                         <div></div>
-                        <FormButtons saveAsDraft = { onSaveAsDraft } discardForm = {handleGoBack} submitForm = { onFormSubmit }/>
+                        <FormButtons 
+                            saveAsDraft = { onSaveAsDraft } 
+                            discardForm = {handleGoBack} 
+                            submitForm = { onFormSubmit }/>
                     </GradientDiv>
             </FormContainer>
         </ModalContainer>
@@ -297,3 +275,9 @@ const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
 
 export default Modal;
 
+const LabelAddress = styled.label` 
+    width: 30%;
+    @media screen and (max-width:600px){
+        width: 152px
+    }
+`

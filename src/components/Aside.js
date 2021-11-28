@@ -10,7 +10,6 @@ const Aside = ({theme, setTheme}) => {
     const icon = (theme === "light")? moon: sun;
 
     const onToggleTheme = () =>{
-        console.log("click");
         (theme === "light")? setTheme("dark"): setTheme("light");
     }
 

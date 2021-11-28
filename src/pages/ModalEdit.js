@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect } from 'react';
-import bin  from '../assets/icon-delete.svg';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
 import FormErrors from '../components/Errors/FormErrors';
@@ -7,8 +6,9 @@ import { Invoice } from '../util/Invoice';
 import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper , ItemField , ButtonAddItem,  
+import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper ,  
     GradientDiv , ErrorsStyling } from './ModalStyle';
+import  ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
 
@@ -42,7 +42,10 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
     const [formErrors, setFormErrors] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-
+    const addItemField = (event) => {
+        event.preventDefault();
+        setItemFields([...itemFields, new Item("", 0, 0)]);
+    }
     
         const handleOnChange = (index, event) => {
             const values = [...itemFields];      
@@ -51,10 +54,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             setItemFields(values)
         }
 
-        const addNewItemField = (event) => {
-            event.preventDefault();
-            setItemFields([...itemFields, new Item("", 0, 0)]);
-        }
+        
 
         const removeItemField = (id) => {
             const values = [...itemFields];
@@ -94,7 +94,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
             const tempInvoice = new Invoice(createdAtValue, invoiceEdit.status, descriptionValue, 
                 paymentTermsValue, clientNameValue, clientEmailValue, senderStreetValue, 
                 senderCityValue, senderPostCodeValue, senderCountryValue, clientStreetValue, 
-                clientCityValue, clientPostCodeValue, clientCountryValue, invoiceEdit.items );
+                clientCityValue, clientPostCodeValue, clientCountryValue, itemFields );
             tempInvoice.calculateTotal();
             tempInvoice.id = (invoice.id)? invoice.id: createId();
             const fErrors =  formValidation( formFieldsValues, formFieldsNames, formFieldsRef);
@@ -246,46 +246,11 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                         ref = {description}/>
                     </label>
                 </fieldset>
-                <fieldset>
-                    <h2> Item List</h2>
-                    <FlexWrapper>
-                        <ItemField>Item Name</ItemField>
-                        <ItemField >Qty.</ItemField>
-                        <ItemField >Price</ItemField>
-                        <ItemField >Total</ItemField>
-                        <ItemField></ItemField>
-                    </FlexWrapper>
-                    {
-                    itemFields.map((item, idx) =>{
-                        return<FlexWrapper key = {idx}> 
-                            <ItemField >
-                         <input type="text" label = "Item Name" name = "name" 
-                         onFocus = {(e) => e.target.value = ""}
-                         onChange = {(event) => handleOnChange(idx, event)}
-                          defaultValue = {item.name} />
-                        </ItemField>
-                        <ItemField >
-                        <input type="number" label = "Qty." name = "quantity"
-                        onFocus = {(e) => e.target.value = ""} 
-                        onChange = {(event) => handleOnChange(idx, event)} 
-                        defaultValue = {item.quantity}/>
-                        </ItemField>
-                        <ItemField >
-                          <input type="number" label = "Price" name = "price" 
-                          onFocus = {(e) => e.target.value = ""}
-                          onChange = {(event) => handleOnChange(idx, event)} 
-                          defaultValue = {item.price} />
-                        </ItemField>
-                        <ItemField >
-                           <input type="number" readOnly label = "Total" name = "total" 
-                           defaultValue = {item.total} />
-                        </ItemField>
-                         <img onClick = {() => removeItemField(idx)} src = { bin } alt = "bin"/>    
-                        </FlexWrapper>
-                    })}
-                    
-                    <ButtonAddItem onClick = {addNewItemField}> + Add New Item</ButtonAddItem>                    
-                </fieldset>
+                <ItemsFieldset 
+                    invoiceItems = { itemFields } 
+                    handleOnChange ={ handleOnChange } 
+                    removeItemField = { removeItemField }
+                    addItemField = { addItemField }/>
                 <ErrorsStyling>
                     <FormErrors formErrors = {formErrors}/>
                 </ErrorsStyling>
