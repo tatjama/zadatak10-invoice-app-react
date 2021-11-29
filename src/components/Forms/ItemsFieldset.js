@@ -1,19 +1,20 @@
 import React ,{ useState } from 'react';
-import { FlexWrapperTitles, FlexWrapperItems, FirstItemsContainer, SecondItemsContainer, 
-    ItemNameField, ItemQuantityField, ItemPriceField, ItemParagraph, ItemImageField, ButtonAddItem }
-     from './ItemsFieldsetStyle.js';
-import bin  from '../../assets/icon-delete.svg';
 import { Item } from '../../util/Item';
 import { itemsValidation } from '../../util/itemsValidation';
 import FormErrors from './FormErrors';
 
+import { FlexWrapperTitles, FlexWrapperItems, FirstItemsContainer, SecondItemsContainer, 
+    ItemNameField, ItemQuantityField, ItemPriceField, ItemParagraph, ItemImageField, ButtonAddItem }
+     from './ItemsFieldsetStyle.js';
+import bin  from '../../assets/icon-delete.svg';
+
+
 const ItemsFieldset = ({ itemFields, setItemFields, itemName, itemQuantity, itemPrice }) => {
     const [ formErrors, setFormErrors ] = useState([])
-    
+
     const addItemField = (event) => {        
         event.preventDefault();
         let errorList = []
-        console.log(itemName !== null)
         if((itemName.current !== null && itemQuantity.current !==null && itemPrice.current !== null)){
             errorList = itemsValidation(itemName, itemQuantity, itemPrice)
         }
@@ -55,7 +56,7 @@ const ItemsFieldset = ({ itemFields, setItemFields, itemName, itemQuantity, item
                     </FlexWrapperTitles>
                     {
                     itemFields.map((item, idx) =>{
-                        return<FlexWrapperItems className = "mobile"  key = {idx}> 
+                        return<FlexWrapperItems className = "mobile" id = {item.id}  key = {item.id}> 
                                   <FirstItemsContainer>
                                     <ItemNameField ><p> Item Name </p>
                                          <input type="text" name = "name" 

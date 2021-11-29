@@ -108,6 +108,10 @@ input{
 input[type="date"], select{
     padding: 8px 15px;
 }
+/*input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url('../src/assets/icon-calendar.svg');
+}*/
 input:hover, select:hover{
     border: 1px solid #7C5DFA; 
 }

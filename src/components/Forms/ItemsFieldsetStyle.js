@@ -98,7 +98,7 @@ const ButtonAddItem = styled.button`
         color: ${props => props.theme.paragraphInvoice};
         margin: 16px 0 47px 0;
         &:hover{
-            background-color: #DFE3FA ;
+            background-color: ${props => props.theme.backgroundAddItem};
         }
         @media screen and (max-width:600px){
             margin: 48px 0 0 0;

@@ -7,8 +7,7 @@ import { Item } from '../util/Item';
 import { formValidation } from '../util/formValidation';
 import { itemsValidation } from '../util/itemsValidation';
 import { createId } from '../util/createId';
-import  {ModalContainer, LinkContainer , FormContainer, FlexWrapper ,  
-    GradientDiv } from './ModalStyle';
+import  {ModalContainer, LinkContainer, FormContainer, FlexWrapper, GradientDiv } from './ModalStyle';
 import  ItemsFieldset from '../components/Forms/ItemsFieldset';
 
 const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
