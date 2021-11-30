@@ -1,10 +1,12 @@
 import React from 'react';
+
 import styled  from 'styled-components';
 import  plus from '../../assets/icon-plus.svg';
 
-const AddButton = () => {
+const AddButton = ({handleAddForm}) => {
+    
     return(
-    <AddButtonStyling type="button">
+    <AddButtonStyling onClick = {handleAddForm} type="button">
         <div>
             <img src = { plus } alt="plus"/>
         </div>
@@ -20,9 +22,7 @@ const AddButtonStyling = styled.button`
     display: flex;
     align-items: center;
     cursor: pointer;
-    &:hover{
-        background-color: #9277FF;
-    }
+    
     div{
         width: 32px;
         height: 32px;

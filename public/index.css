@@ -30,30 +30,117 @@ h3{
     letter-spacing: -0.8px;
     font-weight: 500;
 }
+h4{
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: -0.31px;
+    font-weight: 700;
+}
+h5{
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    font-weight: 700;
+}
 p{
     font-size: 12px;
     line-height: 15px;
     letter-spacing: -0.25px;
 }
-span{
-    font-weight: 700;
-}
+
 button{
     outline: none;
     border: transparent;
+    font-family: "Spartan", sans-serif;
     font-size: 12px;
     line-height: 15px;
     letter-spacing: -0.25px;
     font-weight: 700;
-    padding: 17px 23px;
+    padding: 17px 24px;
     color: #fff;
     background-color: #7C5DFA;
+    cursor: pointer;
     border-radius:25px;
     -webkit-border-radius:25px;
     -moz-border-radius:25px;
     -ms-border-radius:25px;
     -o-border-radius:25px;
 }
+button:hover{
+    background-color: #9277FF;
+}
+
+a{
+    text-decoration: none;
+}
+/*fieldset{
+    margin: 48px;
+    border: none; 
+}
+label{
+    margin-top: 24px;
+    display: block;
+    color: #7E88C3;
+}*/
+input, select, option{
+    height: 48px;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    font-weight: 700;
+    font-family: 'Spartan', sans-serif ;
+    color:  #0C0E16;
+    padding: 8px 0 0 15px;
+    border: 1px solid #DFE3FA;
+    outline: none;
+    cursor: pointer;
+    /*border-radius: 4px;    
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;*/
+}
+input{
+    box-shadow: 0 0 0px 1000px #FFFFFF inset;
+}
+input[type="date"], select{
+    padding: 8px 15px;
+}
+/*input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url('../src/assets/icon-calendar.svg');
+}*/
+input:hover, select:hover{
+    border: 1px solid #7C5DFA; 
+}
+/*Remove arrows from input Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*Remove arrows from input Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}   
+input[type="button"]{
+    border-radius: 24px;
+    background-color: #F9FAFE;
+    color:#7E88C3;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0px 1000px transparent inset;
+    -webkit-border-radius: 24px;
+    -moz-border-radius: 24px;
+    -ms-border-radius: 24px;
+    -o-border-radius: 24px;
+}
+input[type="button"]:hover{
+    background-color: #DFE3FA;
+}
+
 @media screen and (max-width: 600px) {
     h1{
         font-size: 20px;

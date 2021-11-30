@@ -1,32 +1,45 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes , Route } from 'react-router-dom';
 import {   ThemeProvider } from 'styled-components';
+import { themes } from './theme/Theme';
 import Home from './pages/Home';
+import Invoice from './pages/Invoice';
+import useService from './hooks/useService';
 
 
-
-const lightTheme ={
-  background:  "#f2f2f2",
-  titleColor: "#0C0E16",
-  paragraphColor: "#888EB0"
-}
-const darkTheme ={
-  background: "#141625",
-  titleColor: "#FFFFFF",
-  paragraphColor: "#DFE3FA"
-}
-const themes = {
-  light: lightTheme,
-  dark: darkTheme
-}
-
-function App() {  
+function App( ) {  
   
   const [theme, setTheme] = useState("light");
-  
-  console.log(themes[theme])
-  return (
-      <ThemeProvider theme = { themes[theme] } >        
-         <Home theme = { theme } setTheme = { setTheme }/>    
+
+  const { invoices, setInvoicesOnSubmitForm, setInvoicesOnUpdateForm, setInvoicesOnDeleteInvoice, setInvoicesOnUpdateStatus } = useService()
+    
+
+    return (
+      <ThemeProvider theme = { themes[theme] } >     
+        <Router>   
+          <Routes>
+            <Route name="home" 
+              exact path="/" 
+              element = {<Home 
+                      invoices = {invoices} 
+                      theme = { theme } 
+                      onSubmitForm = {(value) => setInvoicesOnSubmitForm(value) }
+                      setTheme = { setTheme }/> }
+            />
+            <Route name="invoice" 
+              path="/invoice/:id" 
+              element = {<Invoice 
+                      invoices = { invoices } 
+                      onUpdateForm = { (updatedInvoice) => setInvoicesOnUpdateForm(updatedInvoice)}
+                      onClickDelete = { (invoiceId) => setInvoicesOnDeleteInvoice(invoiceId)}
+                      onClickPaid = {(invoiceId) => setInvoicesOnUpdateStatus(invoiceId)}
+                      deleteInvoice = { (invoiceId) => setInvoicesOnDeleteInvoice(invoiceId)}
+                      theme = { theme } 
+                      setTheme = { setTheme }/>}
+            />
+           
+          </Routes>   
+         </Router>
       </ThemeProvider>
   );
 }

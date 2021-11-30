@@ -1,18 +1,21 @@
 import React from 'react';
-import styled  from 'styled-components';
-import Form from '../Forms/Form';
+import SelectForm from '../Forms/SelectForm';
 import AddButton from '../Buttons/AddButton';
 
-const Header = ({theme}) => {
+import { HeaderContainer, FormContainer }  from './HeaderStyle';
+
+const Header = ({num, onStatusSelected, theme, handleAddForm}) => {
+
+
     return(
         <HeaderContainer>
             <div>
-                <h1> Invoices </h1>
-                <p> No invoices </p>
+                <h1> Invoices </h1> 
+                {(num) ? <p><span>There are</span> {num}<span> total</span> invoices</p>: <p> No invoices </p>}                
             </div>
             <FormContainer>
-                <Form theme = { theme }/>
-                <AddButton/>
+                <SelectForm onStatusSelected = {onStatusSelected} theme = { theme }/>
+                <AddButton handleAddForm = { handleAddForm} />
             </FormContainer>
         </HeaderContainer>
     )
@@ -20,29 +23,5 @@ const Header = ({theme}) => {
 
 export default Header;
 
-const HeaderContainer = styled.header` 
-    width: 55%;
-    margin: 72px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h1{
-         color: ${props => props.theme.titleColor};// #0C0E16;//#FFFFFF;
-    }
-    p{
-        color: ${props => props.theme.paragraphColor};// #888EB0;//#DFE3FA
-    }
-    @media screen and (max-width: 1000px) {
-        width: 88%;
-        margin: 56px auto;
-    }
-    @media screen and (max-width: 600px) {
-       margin: 32px auto;
-    }
- `
- const FormContainer = styled.div`  
-    display: flex;
-    align-items: center;
- `
-  
+
  
