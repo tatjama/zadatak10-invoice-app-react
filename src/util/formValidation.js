@@ -3,7 +3,6 @@ export const formValidation = ( fieldRefs) =>{
     let fieldValidationErrors = [];
     let emptyFieldsErrors = [];
     for(let i=0; i < 13; i++){      
-        console.log(fieldRefs[i].current.name)   
         switch(fieldRefs[i].current.name) {
           case 'clientName':
             let nameValid = (fieldRefs[i].current.value.match(/^[a-z ,.'-]+$/i) 

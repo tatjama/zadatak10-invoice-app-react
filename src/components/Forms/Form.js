@@ -8,8 +8,6 @@ import ItemsFieldset from './ItemsFieldset';
 
 const Form  = ({ invoiceId, invoice , formFieldsRef,itemFields, setItemFields, itemName , 
         itemQuantity, itemPrice, formErrors }) => {
-    console.log(formFieldsRef)
-    console.log(...formFieldsRef)
     
     return(
         <>

@@ -1,5 +1,6 @@
 
 import styled  from 'styled-components';
+import calendar from '../assets/icon-calendar.svg'
 
 const ModalContainer = styled.section` 
     width: 100%;
@@ -26,6 +27,7 @@ const LinkContainer = styled.div`
     }
 `
 const FormContainer = styled.form`
+
     width: 616px;
     height: 100%;
     background-color: ${props => props.theme.backgroundAddInvoice};
@@ -112,6 +114,19 @@ const FlexWrapper = styled.div`
     label[for = "paymentTerms"]{
         width: 48%;
     }    
+    input[type="date"]{
+        appearance: none;
+        padding: 8px;
+        cursor: inherit;
+  ::-webkit-inner-spin-button { display: none; }
+  ::-webkit-calendar-picker-indicator { 
+      background-image: url(${calendar});
+      cursor: pointer;
+    }
+     }
+     input[type="date"]:hover::-webkit-calendar-picker-indicator{
+        filter: brightness(0) saturate(100%) invert(43%) sepia(91%) saturate(4388%) hue-rotate(236deg) brightness(102%) contrast(96%);
+     }
     @media screen and (max-width:600px){        
         flex-wrap: wrap;    
         label{
