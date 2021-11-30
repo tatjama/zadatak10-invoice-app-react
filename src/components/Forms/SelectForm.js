@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import InputRadio from './InputRadio'; 
+
 import { FormStyling }  from './SelectFormStyle';
 import arrowDown from '../../assets/icon-arrow-down.svg';
-import InputRadio from './InputRadio'; 
 
 
 const SelectForm = ({onStatusSelected}) => {

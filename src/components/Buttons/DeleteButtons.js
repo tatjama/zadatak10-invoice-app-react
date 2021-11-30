@@ -1,8 +1,9 @@
 import React from 'react';
-import { ButtonsContainer }  from './ButtonsGlobalStyle';
 import { Link } from 'react-router-dom';
 import ButtonCancel from './ButtonCancel';
 import ButtonDelete from './ButtonDelete';
+
+import { ButtonsContainer }  from './ButtonsGlobalStyle';
 
 
 const DeleteButtons = ({deleteInvoice, onCancelDelete}) => {

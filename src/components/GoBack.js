@@ -1,6 +1,7 @@
 import React from 'react';
-import { LinkStyle }  from './GoBackStyle';
 import { Link } from 'react-router-dom';
+
+import { LinkStyle }  from './GoBackStyle';
 import arrowLeft from '../assets/icon-arrow-left.svg';
 
 const GoBack = () => {

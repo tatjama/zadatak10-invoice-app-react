@@ -1,6 +1,7 @@
 import React from 'react';
-import { StatusContainer, StatusStyle }  from './HeaderStatusStyle';
 import Status from '../../Invoices/Status';
+
+import { StatusContainer, StatusStyle }  from './HeaderStatusStyle';
 
 const HeaderStatus = ({status}) => {
 

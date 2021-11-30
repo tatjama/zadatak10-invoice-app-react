@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container } from './InvoiceStyle'
 import Aside from '../components/Aside';
 import InvoiceContainer from './../components/Invoices/InvoiceContainer';
 
+import { Container } from './InvoiceStyle';
 
 const Invoice = ({theme, setTheme, deleteInvoice, invoices, onUpdateForm, onClickDelete, onClickPaid,}) => {
     const location = useLocation();

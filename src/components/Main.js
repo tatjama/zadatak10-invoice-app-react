@@ -1,8 +1,9 @@
 import React, { useState }from 'react';
-import { InvoicesListContainer, MainContainer } from './MainStyle';
 import Header from './Headers/Header';
 import Empty from './Empty';
 import InvoiceListItem from './Invoices/InvoiceListItem';
+
+import { InvoicesListContainer, MainContainer } from './MainStyle';
 
 const Main = ({theme, handleAddForm, invoices}) => {
     const data = invoices;

@@ -1,4 +1,5 @@
 import React from "react";
+
 import { StatusStyle, StatusPaid, StatusDraft } from './StatusStyle';
 
 const Status = ({status}) => {

@@ -1,7 +1,8 @@
 import React from 'react';
-import { HeaderContainer, ButtonsResponsive }  from './InvoiceHeaderStyle';
 import HeaderStatus from './HeaderStatus';
 import Buttons from '../../Buttons/Buttons';
+
+import { HeaderContainer, ButtonsResponsive }  from './InvoiceHeaderStyle';
 
 const InvoiceHeader = ({invoice, onClickEdit,  onClickDelete, onClickPaid, status}) => {
 

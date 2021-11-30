@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ButtonsContainer, FirstButtons, ButtonCancelStyle, ButtonSaveStyle } from './ButtonsGlobalStyle';
 
 const EditButtons = ({cancelForm,submitForm}) => {

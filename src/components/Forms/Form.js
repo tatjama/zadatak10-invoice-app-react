@@ -1,10 +1,11 @@
 import React from 'react';
-import {  FlexWrapper } from '../../pages/ModalStyle';
 import FormAddress from './FormAddress';
 import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 import FormErrors from './FormErrors';
 import ItemsFieldset from './ItemsFieldset';
+
+import {  FlexWrapper } from '../../pages/ModalStyle';
 
 const Form  = ({ invoiceId, invoice , formFieldsRef,itemFields, setItemFields, itemName , 
         itemQuantity, itemPrice, formErrors }) => {

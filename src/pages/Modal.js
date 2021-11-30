@@ -1,9 +1,10 @@
 import React from 'react';
 import FormButtons  from '../components/Buttons/FormButtons';
 import GoBack  from '../components/GoBack';
-import  {ModalContainer, LinkContainer ,FormContainer, GradientDiv } from './ModalStyle';
 import Form from '../components/Forms/Form';
 import useForm from '../hooks/useForm';
+
+import  {ModalContainer, LinkContainer ,FormContainer, GradientDiv } from './ModalStyle';
 
 const Modal = ({invoice,onSubmitForm , handleGoBack}) => {
 

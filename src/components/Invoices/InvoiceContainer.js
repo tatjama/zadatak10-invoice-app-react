@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Container, MainContainer } from './InvoiceContainerStyle';
 import InvoiceDetail from './InvoiceDetail';
 import InvoiceHeader from '../Headers/InvoiceHeader/InvoiceHeader';
 import GoBack from '../GoBack';
 import ModalEdit from '../../pages/ModalEdit';
 import ModalDelete from '../../pages/ModalDelete';
+
+import { Container, MainContainer } from './InvoiceContainerStyle';
 
 const InvoiceContainer = ({invoice, deleteInvoice, onClickPaid, onUpdateForm}) => {
    const [isEditForm, setIsEditForm ] = useState(false);
@@ -50,7 +51,7 @@ const InvoiceContainer = ({invoice, deleteInvoice, onClickPaid, onUpdateForm}) =
                        <InvoiceHeader onClickEdit = {handleOnClickEdit} status = {invoice.status}/>  
                        <InvoiceDetail invoice = {invoice}/>              
                    </MainContainer> 
-                       <ModalEdit invoice = {invoice}  onUpdateForm = {onUpdateForm} handleGoBack = {onGoBack}/>
+                       <ModalEdit invoice = {invoice}  onSubmitForm = {onUpdateForm} handleGoBack = {onGoBack}/>
                    </>
                    }
             

@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Status from './Status'; 
+
 import { ListItem } from './InvoiceListItemStyle.js';
 import arrowRight from '../../assets/icon-arrow-right.svg';
-import Status from './Status'; 
+
 
 const InvoiceListItem = ({item}) => {
     return(

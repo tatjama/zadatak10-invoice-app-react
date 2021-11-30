@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {EmptySection}  from './EmptyStyle';
 import illustration from '../assets/illustration-empty.svg';
 

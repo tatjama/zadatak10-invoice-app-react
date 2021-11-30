@@ -1,7 +1,8 @@
 import React from 'react';
-import { HeaderContainer, FormContainer }  from './HeaderStyle';
 import SelectForm from '../Forms/SelectForm';
 import AddButton from '../Buttons/AddButton';
+
+import { HeaderContainer, FormContainer }  from './HeaderStyle';
 
 const Header = ({num, onStatusSelected, theme, handleAddForm}) => {
 

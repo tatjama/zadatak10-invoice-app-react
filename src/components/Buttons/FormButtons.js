@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { ButtonsContainer, FirstButtons, ButtonCancelStyle, ButtonSaveStyle  } from './ButtonsGlobalStyle';
+
 const FormButtons = ({ discardForm, saveAsDraft, submitForm}) => {
 
     return(

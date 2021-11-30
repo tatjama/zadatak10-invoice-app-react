@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { ButtonsContainerForThree, ButtonCancelStyle, ButtonDeleteStyle } from './ButtonsGlobalStyle';
 
 const Buttons = ({invoice, onClickEdit, onClickDelete, onClickPaid }) => {

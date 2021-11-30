@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container } from './InvoiceStyle';
 import Main from '../components/Main';
 import Aside from '../components/Aside';
 import Modal from './Modal';
 
+import { Container } from './InvoiceStyle';
 
 const Home = ({theme, setTheme, invoices, onSubmitForm}) => {
      const [ isUpdate, setIsUpdate ] = useState(false);   

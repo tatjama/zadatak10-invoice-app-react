@@ -1,14 +1,15 @@
 import React from 'react';
 import EditButtons  from '../components/Buttons/EditButtons';
 import GoBack  from '../components/GoBack';
-import  {ModalContainer, LinkContainer, FormContainer, GradientDiv } from './ModalStyle';
 import Form from '../components/Forms/Form';
-import useFormEdit from '../hooks/useFormEdit';
+import useForm from '../hooks/useForm';
 
-const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
+import  {ModalContainer, LinkContainer, FormContainer, GradientDiv } from './ModalStyle';
 
-    const { setItemFields, onFormSubmit, onFormCancel, invoiceEdit, formFieldsRef, itemFields,
-        itemName, itemQuantity, itemPrice, formErrors} = useFormEdit({invoice,  onUpdateForm , handleGoBack})
+const ModalEdit = ({invoice,  onSubmitForm , handleGoBack}) => {
+
+    const { setItemFields, onFormSubmit, onFormCancel, invoiceAdd, formFieldsRef, itemFields,
+        itemName, itemQuantity, itemPrice, formErrors} = useForm({invoice,  onSubmitForm , handleGoBack})
     return(
         <ModalContainer>     
             <FormContainer onSubmit = {onFormSubmit}>
@@ -16,7 +17,7 @@ const ModalEdit = ({invoice,  onUpdateForm , handleGoBack}) => {
                     <GoBack/>    
                 </LinkContainer>
                 <Form invoiceId =  { invoice.id } 
-                    invoice = { invoiceEdit } 
+                    invoice = { invoiceAdd } 
                     formFieldsRef = { formFieldsRef }
                     itemFields = { itemFields } 
                     setItemFields = { setItemFields }
