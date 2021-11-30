@@ -1,29 +1,30 @@
-export const formValidation = (formValues, fieldNames, fieldRefs) =>{
+export const formValidation = ( fieldRefs) =>{
     
     let fieldValidationErrors = [];
     let emptyFieldsErrors = [];
-    for(let i=0; i < 13; i++){         
-        switch(fieldNames[i]) {
+    for(let i=0; i < 13; i++){      
+        console.log(fieldRefs[i].current.name)   
+        switch(fieldRefs[i].current.name) {
           case 'clientName':
-            let nameValid = (formValues[i].match(/^[a-z ,.'-]+$/i) 
-            && formValues[i] !=="");
+            let nameValid = (fieldRefs[i].current.value.match(/^[a-z ,.'-]+$/i) 
+            && fieldRefs[i].current.value !=="");
             if(!nameValid) {
                 fieldValidationErrors.push(" Client name is not valid!");
                 fieldRefs[i].current.parentElement.className = "error";
                 }
             break;
            case 'clientEmail':
-            let emailValid = (formValues[i].match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
-            && formValues[i] !=="");
+            let emailValid = (fieldRefs[i].current.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) 
+            && fieldRefs[i].current.value !=="");
             if(!emailValid) {
                     fieldValidationErrors.push(" Client email is invalid!");
                     fieldRefs[i].current.parentElement.className = "error";
                 }
             break;
           default:
-              let fieldValid = (formValues[i] !== '');
+              let fieldValid = (fieldRefs[i].current.value !== '');
               if(!fieldValid) {
-                  emptyFieldsErrors.push(fieldNames[i] + " cannot be empty!")
+                  emptyFieldsErrors.push(fieldRefs[i].current.name + "cannot be empty!")
                   fieldRefs[i].current.parentElement.className = "error";
               }   
             break;

@@ -4,7 +4,7 @@ import arrowDown from '../../assets/icon-arrow-down.svg';
 import InputRadio from './InputRadio'; 
 
 
-const SelectForm = ({onStatusSelected, theme}) => {
+const SelectForm = ({onStatusSelected}) => {
     const [isOpen , setIsOpen] = useState(false);
 
     const toggleForm = () => {

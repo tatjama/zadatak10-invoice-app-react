@@ -62,7 +62,7 @@ const FormContainer = styled.form`
     label{
         color: ${props => props.theme.paragraphInvoice};
     }
-    input, select{
+    input{
         color: ${props => props.theme.titleColor} !important;
         border: ${props => props.theme.inputBorder};
         box-shadow : ${props => props.theme.inputBoxShadow} ;
